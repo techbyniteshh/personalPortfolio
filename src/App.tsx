@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar.tsx';
 import { HeroSection } from './sections/HeroSection.tsx';
+import { ArduinoShowcaseSection } from './sections/ArduinoShowcaseSection.tsx';
 import { AboutSection } from './sections/AboutSection.tsx';
 import { SkillsSection } from './sections/SkillsSection.tsx';
 import { ProjectsSection } from './sections/ProjectsSection.tsx';
@@ -18,6 +19,7 @@ export default function App() {
   useEffect(() => {
     const sectionIds = [
       'hero',
+      'arduino-experience',
       'about',
       'skills',
       'projects',
@@ -56,6 +58,7 @@ export default function App() {
       {/* Main Content Sections */}
       <main>
         <HeroSection />
+        <ArduinoShowcaseSection />
         <AboutSection />
         <SkillsSection />
         <ProjectsSection />

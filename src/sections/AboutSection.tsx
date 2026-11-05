@@ -53,7 +53,7 @@ export const AboutSection: React.FC = () => {
               </h3>
               <div className="space-y-4 text-sm sm:text-base text-[#4A5565] leading-relaxed">
                 <p>
-                  I'm currently an undergraduate Computer Science student in India with an innate curiosity for how digital systems interact with the real world. My journey started with a fascination for writing simple Python automation scripts, which soon escalated into building full-stack web applications and wiring micro-controller breadboards.
+                  I'm currently pursuing a Bachelor of Vocation (B.VOC) in Internet of Things (IoT) in India, driven by curiosity for how digital logic connects with the physical world. My journey started with Python automation scripting, which quickly expanded into full-stack web applications and microcontroller hardware prototyping.
                 </p>
                 <p>
                   Rather than passively consuming tutorials, I learn by identifying friction in everyday student and community life and designing software to alleviate it. Whether it is solving paper clutter during university midterms with <strong className="text-[#1C2228]">PYQVerse</strong>, empowering local women artisans via <strong className="text-[#1C2228]">SakhiBiz</strong>, or experimenting with railway sensor telemetry on the <strong className="text-[#1C2228]">ESP32</strong>, each project is a milestone of experimentation and continuous learning.
