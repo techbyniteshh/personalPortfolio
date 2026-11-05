@@ -8,14 +8,15 @@ import { CAMERA_PRESETS, CameraPreset } from '../data/arduinoSpecs';
 export type StudioTheme = 'studio' | 'neumorphic' | 'dark';
 
 interface ArduinoViewportProps {
-  activePresetId: string;
-  explodeTarget: number;
-  selectedComponentId: string | null;
-  onSelectComponent: (id: string | null) => void;
-  autoSpin: boolean;
-  powerSim: boolean;
-  theme: StudioTheme;
-  resetTrigger: number;
+  activePresetId?: string;
+  explodeTarget?: number;
+  selectedComponentId?: string | null;
+  onSelectComponent?: (id: string | null) => void;
+  autoSpin?: boolean;
+  powerSim?: boolean;
+  theme?: StudioTheme;
+  resetTrigger?: number;
+  onError?: (error: Error) => void;
 }
 
 const THEME_CONFIG: Record<
@@ -49,14 +50,15 @@ function createRadialContactShadowTexture(): THREE.CanvasTexture {
 }
 
 export const ArduinoViewport: React.FC<ArduinoViewportProps> = ({
-  activePresetId,
-  explodeTarget,
-  selectedComponentId,
-  onSelectComponent,
-  autoSpin,
-  powerSim,
-  theme,
-  resetTrigger,
+  activePresetId = 'reference',
+  explodeTarget = 0,
+  selectedComponentId = null,
+  onSelectComponent = () => {},
+  autoSpin = false,
+  powerSim = true,
+  theme = 'dark',
+  resetTrigger = 0,
+  onError,
 }) => {
   const mountRef = useRef<HTMLDivElement | null>(null);
 
@@ -123,7 +125,7 @@ export const ArduinoViewport: React.FC<ArduinoViewportProps> = ({
   // Apply theme changes to scene background & contact shadow
   useEffect(() => {
     const { scene, renderer, contactShadowMat } = sceneObjectsRef.current;
-    const cfg = THEME_CONFIG[theme];
+    const cfg = THEME_CONFIG[theme] || THEME_CONFIG.dark;
     if (scene && renderer) {
       scene.background = new THREE.Color(cfg.bgHex);
       scene.fog = new THREE.Fog(cfg.fogHex, 18, 38);
@@ -139,43 +141,66 @@ export const ArduinoViewport: React.FC<ArduinoViewportProps> = ({
     const container = mountRef.current;
     if (!container) return;
 
+    let renderer: THREE.WebGLRenderer | undefined;
+    let scene: THREE.Scene | undefined;
+    let camera: THREE.PerspectiveCamera | undefined;
+    let controls: OrbitControls | undefined;
+    let envTexture: THREE.Texture | undefined;
+    let arduinoModel: BuiltArduinoModel | undefined;
+    let contactShadowGeo: THREE.PlaneGeometry | undefined;
+    let contactShadowMat: THREE.MeshBasicMaterial | undefined;
+    let contactShadowTex: THREE.CanvasTexture | undefined;
+    let resizeObserver: ResizeObserver | undefined;
+    let rafId = 0;
+
     const isHeadless =
-      navigator.webdriver || /HeadlessChrome/i.test(navigator.userAgent);
+      typeof navigator !== 'undefined' &&
+      (navigator.webdriver || /HeadlessChrome/i.test(navigator.userAgent));
 
-    const renderer = new THREE.WebGLRenderer({
-      antialias: !isHeadless,
-      powerPreference: 'high-performance',
-      preserveDrawingBuffer: true,
-    });
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
-    renderer.setPixelRatio(isHeadless ? 1 : Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = !isHeadless;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        antialias: !isHeadless,
+        powerPreference: 'high-performance',
+        preserveDrawingBuffer: true,
+      });
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.08;
+      renderer.setPixelRatio(
+        isHeadless ? 1 : Math.min(window.devicePixelRatio || 1, 2)
+      );
+      renderer.shadowMap.enabled = !isHeadless;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    const initialThemeCfg = THEME_CONFIG[theme];
-    renderer.setClearColor(initialThemeCfg.bgHex, 1);
+      const initialThemeCfg = THEME_CONFIG[theme] || THEME_CONFIG.dark;
+      renderer.setClearColor(initialThemeCfg.bgHex, 1);
 
-    const width = container.clientWidth || window.innerWidth;
-    const height = container.clientHeight || window.innerHeight;
-    renderer.setSize(width, height);
-    renderer.domElement.setAttribute('data-testid', 'arduino-webgl-canvas');
-    container.appendChild(renderer.domElement);
+      const width = container.clientWidth || window.innerWidth || 800;
+      const height = container.clientHeight || window.innerHeight || 600;
+      renderer.setSize(width, height);
+      renderer.domElement.setAttribute('data-testid', 'arduino-webgl-canvas');
+      container.appendChild(renderer.domElement);
 
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(initialThemeCfg.bgHex);
-    scene.fog = new THREE.Fog(initialThemeCfg.fogHex, 18, 38);
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(initialThemeCfg.bgHex);
+      scene.fog = new THREE.Fog(initialThemeCfg.fogHex, 18, 38);
 
-    // Studio Environment Reflections (RoomEnvironment + PMREMGenerator)
-    const pmremGenerator = new THREE.PMREMGenerator(renderer);
-    const envTexture = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
-    scene.environment = envTexture;
-    pmremGenerator.dispose();
+      // Studio Environment Reflections (RoomEnvironment + PMREMGenerator)
+      const pmremGenerator = new THREE.PMREMGenerator(renderer);
+      envTexture = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+      scene.environment = envTexture;
+      pmremGenerator.dispose();
+    } catch (webglErr: any) {
+      console.warn('WebGL context creation failed in ArduinoViewport:', webglErr);
+      if (onError) {
+        onError(webglErr instanceof Error ? webglErr : new Error(String(webglErr)));
+      }
+      return;
+    }
 
     // Camera initialized at the exact Reference Photo angle
     const refPreset = CAMERA_PRESETS[0];
-    const camera = new THREE.PerspectiveCamera(
+    camera = new THREE.PerspectiveCamera(
       refPreset.fov,
       width / height,
       0.1,
@@ -183,7 +208,7 @@ export const ArduinoViewport: React.FC<ArduinoViewportProps> = ({
     );
     camera.position.set(...refPreset.position);
 
-    const controls = new OrbitControls(camera, renderer.domElement);
+    controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(...refPreset.target);
     controls.enableDamping = !isHeadless;
     controls.dampingFactor = 0.08;
@@ -231,13 +256,13 @@ export const ArduinoViewport: React.FC<ArduinoViewportProps> = ({
 
     // ─── BUILD ARDUINO UNO R3 3D MODEL ────────────────────────────────────────
     const maxAniso = isHeadless ? 1 : renderer.capabilities.getMaxAnisotropy() || 4;
-    const arduinoModel = buildArduinoModel(maxAniso);
+    arduinoModel = buildArduinoModel(maxAniso);
     scene.add(arduinoModel.root);
 
     // ─── GROUND CONTACT SHADOW PLANE ──────────────────────────────────────────
-    const contactShadowTex = createRadialContactShadowTexture();
-    const contactShadowGeo = new THREE.PlaneGeometry(9.6, 7.6);
-    const contactShadowMat = new THREE.MeshBasicMaterial({
+    contactShadowTex = createRadialContactShadowTexture();
+    contactShadowGeo = new THREE.PlaneGeometry(9.6, 7.6);
+    contactShadowMat = new THREE.MeshBasicMaterial({
       map: contactShadowTex,
       transparent: true,
       opacity: initialThemeCfg.shadowOpacity,
@@ -311,13 +336,12 @@ export const ArduinoViewport: React.FC<ArduinoViewportProps> = ({
       stateRef.current.needsRender = true;
       renderer.render(scene, camera);
     };
-    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(container);
     handleResize();
 
     // ─── ANIMATION LOOP ───────────────────────────────────────────────────────
     const clock = new THREE.Clock();
-    let rafId = 0;
 
     const animate = () => {
       rafId = requestAnimationFrame(animate);
@@ -410,22 +434,26 @@ export const ArduinoViewport: React.FC<ArduinoViewportProps> = ({
     rafId = requestAnimationFrame(animate);
 
     return () => {
-      cancelAnimationFrame(rafId);
-      resizeObserver.disconnect();
-      controls.removeEventListener('start', stopPresetTransition);
-      controls.removeEventListener('change', onControlsChange);
-      controls.dispose();
-      renderer.domElement.removeEventListener('pointerdown', handlePointerDown);
-      renderer.domElement.removeEventListener('pointerup', handlePointerUp);
-      arduinoModel.dispose();
-      contactShadowGeo.dispose();
-      contactShadowMat.dispose();
-      contactShadowTex.dispose();
-      envTexture.dispose();
-      renderer.dispose();
-      if (renderer.domElement.parentNode === container) {
-        container.removeChild(renderer.domElement);
+      if (rafId) cancelAnimationFrame(rafId);
+      if (resizeObserver) resizeObserver.disconnect();
+      if (controls) {
+        controls.removeEventListener('start', stopPresetTransition);
+        controls.removeEventListener('change', onControlsChange);
+        controls.dispose();
       }
+      if (renderer?.domElement) {
+        renderer.domElement.removeEventListener('pointerdown', handlePointerDown);
+        renderer.domElement.removeEventListener('pointerup', handlePointerUp);
+        if (renderer.domElement.parentNode === container) {
+          container.removeChild(renderer.domElement);
+        }
+      }
+      arduinoModel?.dispose();
+      contactShadowGeo?.dispose();
+      contactShadowMat?.dispose();
+      contactShadowTex?.dispose();
+      envTexture?.dispose();
+      renderer?.dispose();
     };
   }, []);
 

@@ -7,8 +7,11 @@ export const CustomCursor: React.FC = () => {
 
   useEffect(() => {
     // Check if pointer is fine (mouse, trackpad) and user doesn't prefer reduced motion
-    const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hasMatchMedia = typeof window !== 'undefined' && typeof window.matchMedia === 'function';
+    const hasFinePointer = hasMatchMedia ? window.matchMedia('(pointer: fine)').matches : false;
+    const prefersReducedMotion = hasMatchMedia
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false;
 
     if (!hasFinePointer || prefersReducedMotion) {
       return;
@@ -16,10 +19,10 @@ export const CustomCursor: React.FC = () => {
 
     const onMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
+      setIsVisible(true);
 
       const target = e.target as HTMLElement | null;
-      if (target) {
+      if (target && typeof target.closest === 'function') {
         const isInteractive = Boolean(
           target.closest('a, button, input, textarea, select, [role="button"], canvas')
         );
@@ -39,7 +42,7 @@ export const CustomCursor: React.FC = () => {
       document.removeEventListener('mouseleave', onMouseLeave);
       document.removeEventListener('mouseenter', onMouseEnter);
     };
-  }, [isVisible]);
+  }, []);
 
   if (!isVisible) return null;
 

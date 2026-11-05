@@ -11,6 +11,8 @@ export interface ComponentSpec {
   cameraOffset: [number, number, number];
 }
 
+export type ArduinoComponentSpec = ComponentSpec;
+
 export interface CameraPreset {
   id: string;
   label: string;

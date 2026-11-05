@@ -17,11 +17,13 @@ import {
   type ArduinoComponentSpec,
 } from '../arduino/data/arduinoSpecs.ts';
 import { ArduinoViewport } from '../arduino/components/ArduinoViewport.tsx';
+import { ErrorBoundary } from '../components/ErrorBoundary.tsx';
 
 export const ArduinoShowcaseSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [hasWebGL, setHasWebGL] = useState<boolean>(true);
+  const [webglError, setWebglError] = useState<string | null>(null);
   const [activePresetId, setActivePresetId] = useState<string>('reference');
   const [explodeFactor, setExplodeFactor] = useState<number>(0);
   const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
@@ -34,7 +36,9 @@ export const ArduinoShowcaseSection: React.FC = () => {
     try {
       const canvas = document.createElement('canvas');
       const gl =
-        canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        canvas.getContext('webgl2') ||
+        canvas.getContext('webgl') ||
+        canvas.getContext('experimental-webgl');
       setHasWebGL(Boolean(gl));
     } catch {
       setHasWebGL(false);
@@ -73,6 +77,7 @@ export const ArduinoShowcaseSection: React.FC = () => {
     setSelectedComponentId(null);
     setAutoSpin(false);
     setPowerSim(true);
+    setWebglError(null);
     setResetTrigger((prev) => prev + 1);
   };
 
@@ -125,7 +130,7 @@ export const ArduinoShowcaseSection: React.FC = () => {
                       : 'bg-[#121923] text-slate-300 border border-white/[0.08] hover:text-white hover:bg-white/[0.08]'
                   }`}
                 >
-                  {preset.name}
+                  {preset.label || preset.id}
                 </button>
               ))}
             </div>
@@ -174,13 +179,15 @@ export const ArduinoShowcaseSection: React.FC = () => {
 
           {/* 3D Canvas Viewport Area */}
           <div className="relative w-full h-[480px] sm:h-[560px] lg:h-[620px] bg-[#07090D]">
-            {!hasWebGL ? (
-              /* Fallback State when WebGL is unavailable */
+            {!hasWebGL || Boolean(webglError) ? (
+              /* Fallback State when WebGL is unavailable or failed */
               <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-[#07090D] text-slate-300">
                 <AlertTriangle className="w-12 h-12 text-[#FF8A24] mb-3" />
-                <h3 className="font-display text-xl font-bold text-white mb-2">Hardware Acceleration Required</h3>
+                <h3 className="font-display text-xl font-bold text-white mb-2">Hardware Specification Mode</h3>
                 <p className="max-w-md text-xs sm:text-sm text-slate-400 leading-relaxed mb-6">
-                  WebGL 3D graphics are not available on this browser or have been disabled. You can still inspect the full hardware specification below.
+                  {webglError
+                    ? `3D acceleration encountered an issue: ${webglError}. Hardware telemetry and specifications remain available below.`
+                    : 'WebGL 3D graphics are not available on this browser or display server. You can inspect the full hardware specification below.'}
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg text-left text-xs">
                   <div className="p-3 bg-[#0D1118] border border-white/[0.08] rounded-xl">
@@ -207,16 +214,38 @@ export const ArduinoShowcaseSection: React.FC = () => {
                 <span>// Loading 3D Canvas on scroll view...</span>
               </div>
             ) : (
-              /* Active Client-Side 3D Canvas */
-              <ArduinoViewport
-                activePresetId={activePresetId}
-                explodeTarget={explodeFactor}
-                selectedComponentId={selectedComponentId}
-                onSelectComponent={setSelectedComponentId}
-                autoSpin={autoSpin}
-                powerSim={powerSim}
-                key={resetTrigger}
-              />
+              /* Active Client-Side 3D Canvas with Graceful Error Boundary */
+              <ErrorBoundary
+                name="Arduino3D"
+                fallback={
+                  <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-[#07090D] text-slate-300">
+                    <AlertTriangle className="w-12 h-12 text-[#FF8A24] mb-3" />
+                    <h3 className="font-display text-xl font-bold text-white mb-2">3D Renderer Suspended</h3>
+                    <p className="max-w-md text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+                      The WebGL canvas encountered an execution issue. The rest of the site is functioning normally.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={handleReset}
+                      className="px-4 py-2 rounded-xl text-xs font-mono bg-[#121923] border border-white/[0.1] text-white hover:border-[#FF8A24]/40"
+                    >
+                      Reload 3D Module
+                    </button>
+                  </div>
+                }
+              >
+                <ArduinoViewport
+                  activePresetId={activePresetId}
+                  explodeTarget={explodeFactor}
+                  selectedComponentId={selectedComponentId}
+                  onSelectComponent={setSelectedComponentId}
+                  autoSpin={autoSpin}
+                  powerSim={powerSim}
+                  theme="dark"
+                  onError={(err) => setWebglError(err.message)}
+                  key={resetTrigger}
+                />
+              </ErrorBoundary>
             )}
 
             {/* In-Canvas Component Spec Drawer (when a component is clicked) */}
@@ -224,9 +253,16 @@ export const ArduinoShowcaseSection: React.FC = () => {
               <div className="absolute top-4 left-4 z-20 max-w-xs sm:max-w-sm rounded-2xl p-4 bg-[#0D1118]/90 border border-white/[0.12] backdrop-blur-xl shadow-2xl animate-in fade-in duration-200">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div>
-                    <span className="text-[10px] font-mono text-[#49C8FF] uppercase tracking-wider block">
-                      {selectedSpec.category}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-[#49C8FF] uppercase tracking-wider block">
+                        {selectedSpec.category}
+                      </span>
+                      {selectedSpec.packageType && (
+                        <span className="text-[10px] font-mono text-slate-500">
+                          [{selectedSpec.packageType}]
+                        </span>
+                      )}
+                    </div>
                     <h4 className="font-display font-bold text-sm text-white">
                       {selectedSpec.name}
                     </h4>
@@ -241,11 +277,16 @@ export const ArduinoShowcaseSection: React.FC = () => {
                   </button>
                 </div>
                 <p className="font-body text-xs text-[#A3ADBA] leading-relaxed mb-3">
-                  {selectedSpec.description}
+                  {selectedSpec.summary}
                 </p>
-                {selectedSpec.technicalSpec && (
-                  <div className="text-[11px] font-mono bg-black/40 border border-white/[0.06] p-2 rounded-lg text-[#FF8A24]">
-                    {selectedSpec.technicalSpec}
+                {selectedSpec.specs && Object.keys(selectedSpec.specs).length > 0 && (
+                  <div className="space-y-1 text-[11px] font-mono bg-black/40 border border-white/[0.06] p-2.5 rounded-lg text-slate-300">
+                    {Object.entries(selectedSpec.specs).slice(0, 4).map(([key, val]) => (
+                      <div key={key} className="flex justify-between gap-2">
+                        <span className="text-slate-400">{key}:</span>
+                        <span className="text-[#FF8A24] text-right font-medium">{val}</span>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
