@@ -4,11 +4,8 @@ import {
   QrCode,
   Copy,
   Check,
-  ExternalLink,
   Heart,
-  ArrowRight,
   ShieldAlert,
-  Sparkles,
   RotateCcw,
 } from 'lucide-react';
 import { PORTFOLIO_CONFIG } from '../config/portfolio.ts';
@@ -41,45 +38,45 @@ export const FuelCreativitySection: React.FC = () => {
   };
 
   const handleInitiatePayment = () => {
-    // Open UPI protocol link
     window.location.href = upiDeepLink;
     setHasInitiatedPayment(true);
   };
 
   return (
-    <section id="fuel" className="py-20 bg-[#F4EFEA] border-t border-[#E8E1D5]">
+    <section id="fuel" className="py-24 bg-[#080B10] text-[#F0F4F8] border-t border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full neu-inset text-xs font-semibold text-orange-700 mb-3">
+        <div data-reveal className="text-center max-w-2xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-700/80 text-xs font-semibold text-orange-400 mb-3 backdrop-blur-sm">
             <Coffee className="w-3.5 h-3.5" />
             <span>Voluntary Support</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1C2228] tracking-tight">
+          <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             {PORTFOLIO_CONFIG.donation.heading}
           </h2>
-          <p className="mt-4 text-sm sm:text-base text-[#4A5565] leading-relaxed">
+          <p className="font-body mt-4 text-sm sm:text-base text-slate-300 leading-relaxed">
             {PORTFOLIO_CONFIG.donation.subheading}
           </p>
         </div>
 
         {/* Main Donation Card */}
         <div className="max-w-3xl mx-auto">
-          <div className="neu-raised rounded-3xl p-6 sm:p-10 bg-[#FAF7F2] border border-white/80">
+          <div className="rounded-3xl p-6 sm:p-10 bg-[#0D111A] border border-white/[0.08] shadow-xl">
             {hasInitiatedPayment ? (
               /* Thank You / Initiated State */
               <div className="text-center py-6 animate-in fade-in duration-300">
-                <div className="w-16 h-16 rounded-2xl neu-inset flex items-center justify-center text-orange-600 mx-auto mb-4">
-                  <Heart className="w-8 h-8 fill-orange-500 text-orange-600" />
+                <div className="w-16 h-16 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 mx-auto mb-4">
+                  <Heart className="w-8 h-8 fill-orange-500 text-orange-400" />
                 </div>
-                <h3 className="text-2xl font-bold text-[#1C2228] mb-2">
+                <h3 className="font-heading text-2xl font-bold text-white mb-2">
                   Thanks for the support! ☕❤️
                 </h3>
-                <p className="text-sm text-[#4A5565] max-w-md mx-auto mb-6 leading-relaxed">
+                <p className="font-body text-sm text-slate-300 max-w-md mx-auto mb-6 leading-relaxed">
                   You're helping keep the ideas flowing and fueling open-source student development.
                 </p>
 
-                <div className="neu-inset-sm p-4 rounded-2xl max-w-md mx-auto text-xs text-[#55606E] mb-6">
+                <div className="p-4 rounded-2xl bg-black/40 border border-white/[0.06] max-w-md mx-auto text-xs text-slate-400 mb-6">
                   <p>
                     <strong>Note:</strong> Direct peer-to-peer UPI transfers do not require intermediate payment gateway fees or automatic receipts. Your contribution goes straight to hardware sensors, hosting, and learning materials.
                   </p>
@@ -88,7 +85,7 @@ export const FuelCreativitySection: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setHasInitiatedPayment(false)}
-                  className="neu-btn px-5 py-2.5 rounded-xl text-xs font-semibold text-[#1C2228] flex items-center gap-2 mx-auto hover:text-orange-600"
+                  className="neu-btn px-5 py-2.5 rounded-xl text-xs font-semibold text-white flex items-center gap-2 mx-auto hover:text-orange-400"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   <span>Back to Amount Selection</span>
@@ -97,13 +94,13 @@ export const FuelCreativitySection: React.FC = () => {
             ) : (
               /* Interactive Amount Selector & UPI Trigger */
               <div>
-                <p className="text-sm text-[#4A5565] leading-relaxed mb-6">
+                <p className="font-body text-sm text-slate-300 leading-relaxed mb-6">
                   {PORTFOLIO_CONFIG.donation.description}
                 </p>
 
                 {/* Amount Selection Buttons */}
                 <div className="mb-6">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#1C2228] mb-3">
+                  <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-3 font-semibold">
                     Select Contribution Amount (INR):
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -119,8 +116,8 @@ export const FuelCreativitySection: React.FC = () => {
                           }}
                           className={`py-3 px-4 rounded-2xl text-sm font-bold transition-all ${
                             isSelected
-                              ? 'neu-inset text-orange-600 border border-orange-300 font-extrabold'
-                              : 'neu-btn text-[#2D3748] hover:text-orange-600'
+                              ? 'bg-orange-500/20 text-orange-400 border border-orange-500/40'
+                              : 'bg-[#0B0F18] border border-white/[0.08] text-slate-300 hover:text-white hover:border-white/20'
                           }`}
                         >
                           ₹{amt}
@@ -133,8 +130,8 @@ export const FuelCreativitySection: React.FC = () => {
                       onClick={() => setIsCustom(true)}
                       className={`py-3 px-4 rounded-2xl text-sm font-bold transition-all ${
                         isCustom
-                          ? 'neu-inset text-orange-600 border border-orange-300 font-extrabold'
-                          : 'neu-btn text-[#2D3748] hover:text-orange-600'
+                          ? 'bg-orange-500/20 text-orange-400 border border-orange-500/40'
+                          : 'bg-[#0B0F18] border border-white/[0.08] text-slate-300 hover:text-white hover:border-white/20'
                       }`}
                     >
                       Custom ₹
@@ -144,7 +141,7 @@ export const FuelCreativitySection: React.FC = () => {
                   {/* Custom Input */}
                   {isCustom && (
                     <div className="mt-3 flex items-center gap-2">
-                      <span className="text-base font-bold text-[#1C2228]">₹</span>
+                      <span className="text-base font-bold text-white">₹</span>
                       <input
                         type="number"
                         min="10"
@@ -152,7 +149,7 @@ export const FuelCreativitySection: React.FC = () => {
                         placeholder="Enter amount (e.g. 150)"
                         value={customAmount}
                         onChange={(e) => setCustomAmount(e.target.value)}
-                        className="neu-input w-48 px-3.5 py-2 rounded-xl text-sm font-bold"
+                        className="w-48 px-3.5 py-2 rounded-xl text-sm font-bold bg-[#0B0F18] border border-white/[0.08] text-white focus:outline-none focus:border-orange-500/50"
                         aria-label="Custom voluntary contribution amount"
                       />
                     </div>
@@ -175,46 +172,48 @@ export const FuelCreativitySection: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowQrCode(!showQrCode)}
-                    className="neu-btn w-full sm:w-auto px-5 py-3.5 rounded-2xl text-xs font-semibold text-[#1C2228] flex items-center justify-center gap-2 hover:text-orange-600"
+                    className="neu-btn w-full sm:w-auto px-5 py-3.5 rounded-2xl text-xs font-semibold text-white flex items-center justify-center gap-2 hover:text-orange-400"
                     aria-expanded={showQrCode}
                   >
-                    <QrCode className="w-4 h-4 text-orange-600" />
+                    <QrCode className="w-4 h-4 text-orange-400" />
                     <span>{showQrCode ? 'Hide QR Code' : 'Scan UPI QR Code'}</span>
                   </button>
                 </div>
 
                 {/* QR Code Presentation Box */}
                 {showQrCode && (
-                  <div className="neu-inset-sm p-6 rounded-3xl mb-6 flex flex-col items-center justify-center animate-in fade-in duration-200">
-                    <UpiQrCode value={upiDeepLink} size={190} />
-                    <p className="mt-3 text-xs text-[#55606E] text-center max-w-sm">
+                  <div className="p-6 rounded-3xl mb-6 bg-black/40 border border-white/[0.06] flex flex-col items-center justify-center animate-in fade-in duration-200">
+                    <div className="p-3 bg-white rounded-2xl shadow-md">
+                      <UpiQrCode value={upiDeepLink} size={190} />
+                    </div>
+                    <p className="mt-3 text-xs text-slate-400 text-center max-w-sm">
                       Scan with Google Pay, PhonePe, Paytm, or any BHIM UPI compliant app to contribute {effectiveAmount > 0 ? `₹${effectiveAmount}` : 'voluntarily'}.
                     </p>
                   </div>
                 )}
 
                 {/* Copy UPI ID Bar */}
-                <div className="p-3.5 rounded-2xl bg-[#EBE5DC] border border-[#DDD5C9] flex items-center justify-between flex-wrap gap-2 text-xs">
+                <div className="p-3.5 rounded-2xl bg-black/30 border border-white/[0.06] flex items-center justify-between flex-wrap gap-2 text-xs">
                   <div className="flex items-center gap-2">
-                    <span className="text-[#6B7787] font-medium">VPA / UPI ID:</span>
-                    <code className="font-mono font-bold text-[#1C2228] bg-white/70 px-2 py-0.5 rounded border border-[#DDD5C9]">
+                    <span className="text-slate-400 font-medium">VPA / UPI ID:</span>
+                    <code className="font-mono font-bold text-orange-400 bg-white/[0.05] px-2 py-0.5 rounded border border-white/[0.08]">
                       {PORTFOLIO_CONFIG.donation.upiId}
                     </code>
                   </div>
                   <button
                     type="button"
                     onClick={handleCopyUpi}
-                    className="neu-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-[#1C2228] flex items-center gap-1.5 hover:text-orange-600"
+                    className="neu-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-white flex items-center gap-1.5 hover:text-orange-400"
                     aria-label="Copy UPI ID to clipboard"
                   >
                     {copiedUpi ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        <span className="text-emerald-700">Copied!</span>
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <span className="text-emerald-400">Copied!</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-3.5 h-3.5 text-[#55606E]" />
+                        <Copy className="w-3.5 h-3.5 text-slate-400" />
                         <span>Copy UPI ID</span>
                       </>
                     )}
@@ -222,14 +221,15 @@ export const FuelCreativitySection: React.FC = () => {
                 </div>
 
                 {/* Disclaimer */}
-                <div className="mt-5 text-[11px] text-[#6B7787] leading-relaxed flex items-start gap-1.5">
-                  <ShieldAlert className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                <div className="mt-5 text-[11px] text-slate-500 leading-relaxed flex items-start gap-1.5">
+                  <ShieldAlert className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
                   <span>{PORTFOLIO_CONFIG.donation.disclaimer}</span>
                 </div>
               </div>
             )}
           </div>
         </div>
+
       </div>
     </section>
   );

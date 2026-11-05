@@ -91,7 +91,7 @@ export const ArduinoShowcaseSection: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-10">
+        <div data-reveal className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-700/80 text-xs font-semibold text-orange-400 mb-3 backdrop-blur-sm">
             <Cpu className="w-3.5 h-3.5 text-orange-400" />
             <span>Interactive 3D Hardware Digital Twin</span>
@@ -99,10 +99,10 @@ export const ArduinoShowcaseSection: React.FC = () => {
             <span className="text-slate-400 font-mono text-[11px]">Local GPU</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
+          <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
             Interactive Arduino Experience
           </h2>
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+          <p className="font-body text-sm sm:text-base text-slate-300 leading-relaxed">
             Procedural 3D model of the Arduino Uno R3. Drag to inspect components, separate architectural PCB layers, and simulate on-board power telemetry directly in your browser.
           </p>
         </div>
@@ -318,3 +318,4 @@ export const ArduinoShowcaseSection: React.FC = () => {
     </section>
   );
 };
+

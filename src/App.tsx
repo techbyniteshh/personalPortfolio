@@ -12,9 +12,13 @@ import { ContactSection } from './sections/ContactSection.tsx';
 import { FuelCreativitySection } from './sections/FuelCreativitySection.tsx';
 import { Footer } from './components/Footer.tsx';
 import { BackToTop } from './components/BackToTop.tsx';
+import { useScrollReveal } from './hooks/useScrollReveal.ts';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<string>('hero');
+
+  // Activate subtle text entrance animations
+  useScrollReveal();
 
   useEffect(() => {
     const sectionIds = [
@@ -31,15 +35,12 @@ export default function App() {
     ];
 
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 250;
-
       for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const id = sectionIds[i];
-        const element = document.getElementById(id);
+        const element = document.getElementById(sectionIds[i]);
         if (element) {
-          const top = element.offsetTop;
-          if (scrollPosition >= top) {
-            setActiveSection(id);
+          const rect = element.getBoundingClientRect();
+          if (rect.top <= 220) {
+            setActiveSection(sectionIds[i]);
             break;
           }
         }
@@ -51,22 +52,33 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F4EFEA] text-[#1C2228] selection:bg-orange-500 selection:text-white">
+    <div className="min-h-screen bg-[#080B10] text-[#F0F4F8] selection:bg-orange-500 selection:text-white">
       {/* Navigation */}
       <Navbar activeSection={activeSection} />
 
-      {/* Main Content Sections */}
-      <main>
-        <HeroSection />
-        <ArduinoShowcaseSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <EducationSection />
-        <AchievementsSection />
-        <ArticlesSection />
-        <ContactSection />
-        <FuelCreativitySection />
+      {/* Main Content Sections with Sticky Scroll Storytelling Layers */}
+      <main className="relative">
+        {/* Layer 1: Pinned Cinematic Hero */}
+        <div className="sticky-story-hero">
+          <HeroSection />
+        </div>
+
+        {/* Layer 2: Seamless Dark 3D Arduino Showcase Transition */}
+        <div className="sticky-story-arduino">
+          <ArduinoShowcaseSection />
+        </div>
+
+        {/* Layer 3: Narrative Flow & Content-Dense Sections (Natural Fluid Scroll) */}
+        <div className="sticky-story-flow bg-[#080B10]">
+          <AboutSection />
+          <SkillsSection />
+          <ProjectsSection />
+          <EducationSection />
+          <AchievementsSection />
+          <ArticlesSection />
+          <ContactSection />
+          <FuelCreativitySection />
+        </div>
       </main>
 
       {/* Footer */}

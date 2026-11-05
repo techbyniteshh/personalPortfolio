@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Terminal, Coffee, Mail, ArrowUpRight } from 'lucide-react';
+import { Menu, X, Terminal, Mail } from 'lucide-react';
 import { PORTFOLIO_CONFIG } from '../config/portfolio.ts';
 
 interface NavbarProps {
@@ -26,14 +26,14 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
     { name: 'Education', href: '#education' },
     { name: 'Certifications', href: '#achievements' },
     { name: 'Articles', href: '#articles' },
-    { name: 'Fuel Creativity', href: '#fuel' },
+    { name: 'Fuel', href: '#fuel' },
   ];
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#F4EFEA]/95 py-3 shadow-[0_4px_20px_rgba(184,172,158,0.25)] border-b border-[#E8E1D5]'
+          ? 'bg-[#080B10]/90 backdrop-blur-md py-3 border-b border-white/[0.08] shadow-lg shadow-black/50'
           : 'bg-transparent py-5'
       }`}
     >
@@ -44,21 +44,21 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
             href="#hero"
             className="flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded-lg p-1"
           >
-            <div className="w-10 h-10 rounded-xl neu-raised flex items-center justify-center text-orange-600 group-hover:scale-105 transition-transform">
+            <div className="w-10 h-10 rounded-xl bg-slate-900/80 border border-slate-700/60 flex items-center justify-center text-orange-400 group-hover:scale-105 transition-transform backdrop-blur-sm shadow-sm">
               <Terminal className="w-5 h-5 stroke-[2.2]" />
             </div>
             <div>
-              <span className="font-bold text-base sm:text-lg tracking-tight text-[#1C2228] block leading-tight">
+              <span className="font-heading font-bold text-base sm:text-lg tracking-tight text-white block leading-tight">
                 {PORTFOLIO_CONFIG.profile.name}
               </span>
-              <span className="text-[11px] font-mono text-orange-600 font-semibold block">
+              <span className="text-[11px] font-mono text-orange-400 font-medium block">
                 {PORTFOLIO_CONFIG.profile.logoSubtitle}
               </span>
             </div>
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1.5 p-1.5 rounded-full neu-inset text-xs font-medium text-[#4A5565]">
+          <nav className="hidden lg:flex items-center gap-1 p-1 rounded-full bg-slate-950/70 border border-white/[0.08] backdrop-blur-md text-xs font-medium text-slate-300">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.replace('#', '');
               return (
@@ -67,8 +67,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
                   href={link.href}
                   className={`px-3.5 py-1.5 rounded-full transition-all duration-200 ${
                     isActive
-                      ? 'neu-raised text-orange-600 font-semibold shadow-sm'
-                      : 'hover:text-[#1C2228]'
+                      ? 'bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30'
+                      : 'hover:text-white hover:bg-white/[0.04]'
                   }`}
                 >
                   {link.name}
@@ -77,7 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
             })}
           </nav>
 
-          {/* Right Action Buttons */}
+          {/* Right Action Button */}
           <div className="hidden sm:flex items-center gap-3">
             <a
               href="#contact"
@@ -93,7 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="neu-btn p-2 rounded-xl text-[#2D3748] focus:outline-none"
+              className="p-2 rounded-xl text-slate-300 bg-slate-900/80 border border-slate-700/60 hover:text-white focus:outline-none"
               aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={mobileMenuOpen}
             >
@@ -103,46 +103,35 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
         </div>
       </div>
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-4 top-20 bg-[#F4EFEA] border border-white/80 rounded-2xl neu-raised-lg p-5 z-50 animate-in fade-in slide-in-from-top-4 duration-200">
-          <nav className="flex flex-col gap-2">
-            {navLinks.map((link) => {
-              const isActive = activeSection === link.href.replace('#', '');
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                    isActive
-                      ? 'neu-inset text-orange-600 font-semibold'
-                      : 'text-[#4A5565] hover:text-[#1C2228] hover:bg-[#EBE5DC]'
-                  }`}
-                >
-                  {link.name}
-                </a>
-              );
-            })}
-            <div className="pt-3 border-t border-[#E2DACF] mt-2 flex flex-col gap-2">
+        <div className="lg:hidden bg-[#0A0E17]/95 border-b border-white/[0.08] backdrop-blur-xl px-4 pt-3 pb-6 space-y-2 animate-in fade-in duration-200">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.href.replace('#', '');
+            return (
               <a
-                href="#contact"
+                key={link.name}
+                href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="neu-btn-primary px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 text-center"
+                className={`block px-3 py-2 rounded-lg text-sm font-medium ${
+                  isActive
+                    ? 'text-orange-400 bg-orange-500/10 font-semibold'
+                    : 'text-slate-300 hover:text-white hover:bg-white/5'
+                }`}
               >
-                <Mail className="w-4 h-4" />
-                <span>Let's Talk</span>
+                {link.name}
               </a>
-              <a
-                href="#fuel"
-                onClick={() => setMobileMenuOpen(false)}
-                className="neu-btn px-4 py-2.5 rounded-xl text-sm font-medium text-orange-700 flex items-center justify-center gap-2 text-center"
-              >
-                <Coffee className="w-4 h-4" />
-                <span>Fuel My Creativity ☕</span>
-              </a>
-            </div>
-          </nav>
+            );
+          })}
+          <div className="pt-3 border-t border-white/[0.08]">
+            <a
+              href="#contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="neu-btn-primary block w-full text-center py-2.5 rounded-xl text-sm font-semibold"
+            >
+              Contact Me
+            </a>
+          </div>
         </div>
       )}
     </header>
