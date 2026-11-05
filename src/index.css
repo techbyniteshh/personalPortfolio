@@ -1,50 +1,87 @@
 @import "tailwindcss";
 
 :root {
-  --font-heading: 'Manrope', system-ui, -apple-system, sans-serif;
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Sora', system-ui, -apple-system, sans-serif;
+  --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
 
-  /* Deep Minimalist Dark Palette */
-  --bg-main: #080B10;
-  --bg-secondary: #0A0E17;
-  --surface-main: #0D111A;
-  --surface-card: #111624;
-  --surface-sunken: #06080D;
-  --surface-border: rgba(255, 255, 255, 0.07);
-  --surface-border-subtle: rgba(255, 255, 255, 0.04);
+  /* Elite Creative Tech Palette */
+  --bg-primary: #07090D;
+  --surface-secondary: #0D1118;
+  --surface-elevated: #121923;
+  --surface-sunken: #040609;
   
-  --text-primary: #F0F4F8;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
+  --text-primary: #F5F7FA;
+  --text-secondary: #A3ADBA;
+  --text-muted: #5E6C7D;
 
-  --accent-orange: #F97316;
-  --accent-orange-hover: #EA580C;
-  --accent-orange-light: #FFEDD5;
-  --accent-orange-glow: rgba(249, 115, 22, 0.25);
-  --accent-amber: #F59E0B;
+  --accent-orange: #FF8A24;
+  --accent-orange-hover: #F97316;
+  --accent-orange-glow: rgba(255, 138, 36, 0.25);
+  
+  --accent-cyan: #49C8FF;
+  --accent-cyan-hover: #38BDF8;
+  --accent-cyan-glow: rgba(73, 200, 255, 0.25);
+  
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --border-focus: rgba(255, 138, 36, 0.45);
+  --border-cyan: rgba(73, 200, 255, 0.40);
+}
+
+/* Global Reset & Base */
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg-main);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
+/* Responsive Headline Scales with clamp() */
+h1, .text-display-1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5.5vw, 4.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+}
+
+h2, .text-display-2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 4vw, 3.25rem);
+  line-height: 1.15;
   letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+h3, .text-display-3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
 }
 
 code, pre, .font-mono {
   font-family: var(--font-mono);
 }
 
-.font-heading {
-  font-family: var(--font-heading);
+.font-display {
+  font-family: var(--font-display);
 }
 
 .font-body {
@@ -52,173 +89,130 @@ code, pre, .font-mono {
 }
 
 /* ==========================================================================
-   Minimalist Dark Card & Button Utilities
+   Creative Tech Surfaces & Cards
    ========================================================================== */
 
-.dark-card {
-  background: var(--surface-main);
-  border: 1px solid var(--surface-border);
+.surface-card {
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-subtle);
   border-radius: 1.25rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dark-card:hover {
-  border-color: rgba(249, 115, 22, 0.35);
-  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.6);
+.surface-card:hover {
+  border-color: rgba(255, 138, 36, 0.35);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7);
 }
 
-.dark-card-interactive {
-  background: var(--surface-main);
-  border: 1px solid var(--surface-border);
+.surface-elevated {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
   border-radius: 1.25rem;
+}
+
+/* Primary Button Styling */
+.btn-primary-orange {
+  background: linear-gradient(135deg, #FF8A24 0%, #EA580C 100%);
+  color: #FFFFFF;
+  box-shadow: 0 4px 18px var(--accent-orange-glow);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.btn-primary-orange:hover {
+  background: linear-gradient(135deg, #FFA04D 0%, #C2410C 100%);
+  box-shadow: 0 8px 26px rgba(255, 138, 36, 0.45);
+  transform: translateY(-1.5px);
+}
+
+.btn-primary-orange:active {
+  transform: translateY(1px);
+}
+
+.btn-ghost-dark {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
 }
 
-.dark-card-interactive:hover {
-  border-color: rgba(249, 115, 22, 0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px -6px rgba(249, 115, 22, 0.12);
+.btn-ghost-dark:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+  transform: translateY(-1px);
 }
 
-/* Backward-compatible Neumorphic/Dark Utilities */
-.neu-raised-sm {
-  background: var(--surface-main);
-  border: 1px solid var(--surface-border);
-  transition: all 0.2s ease;
+/* Backward Compatibility with neu-btn */
+.neu-btn-primary {
+  background: linear-gradient(135deg, #FF8A24 0%, #EA580C 100%);
+  color: #FFFFFF;
+  box-shadow: 0 4px 18px var(--accent-orange-glow);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
 }
-
-.neu-raised {
-  background: var(--surface-main);
-  border: 1px solid var(--surface-border);
-  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45);
-  transition: all 0.25s ease;
+.neu-btn-primary:hover {
+  background: linear-gradient(135deg, #FFA04D 0%, #C2410C 100%);
+  box-shadow: 0 8px 26px rgba(255, 138, 36, 0.45);
+  transform: translateY(-1.5px);
 }
-
-.neu-raised-lg {
-  background: var(--surface-card);
-  border: 1px solid var(--surface-border);
-  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.55);
-}
-
-.neu-inset {
-  background: var(--surface-sunken);
-  border: 1px solid var(--surface-border-subtle);
-}
-
-.neu-inset-sm {
-  background: var(--surface-sunken);
-  border: 1px solid var(--surface-border-subtle);
-}
-
-/* Interactive Buttons */
 .neu-btn {
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--surface-border);
+  border: 1px solid var(--border-subtle);
   color: var(--text-primary);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
-  user-select: none;
 }
-
 .neu-btn:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.18);
   color: #FFFFFF;
-  transform: translateY(-1px);
 }
 
-.neu-btn:active, .neu-btn.is-active, .neu-btn[aria-pressed="true"] {
-  background: rgba(249, 115, 22, 0.15);
-  border-color: rgba(249, 115, 22, 0.45);
-  color: #FB923C;
-}
-
-.neu-btn:focus-visible {
-  outline: 2px solid var(--accent-orange);
-  outline-offset: 3px;
-}
-
-/* Primary Orange Button */
-.neu-btn-primary {
-  background: linear-gradient(135deg, #FB923C 0%, #EA580C 100%);
-  color: #FFFFFF;
-  box-shadow: 0 4px 16px rgba(234, 88, 12, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
-}
-
-.neu-btn-primary:hover {
-  background: linear-gradient(135deg, #F97316 0%, #C2410C 100%);
-  box-shadow: 0 8px 24px rgba(234, 88, 12, 0.45);
-  transform: translateY(-1px);
-}
-
-.neu-btn-primary:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.4);
-}
-
-/* Input Fields */
+/* Form Inputs */
 .neu-input {
-  background: #0B0F18;
-  border: 1px solid var(--surface-border);
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-subtle);
   color: var(--text-primary);
   transition: all 0.2s ease;
 }
-
 .neu-input:focus {
   outline: none;
-  border-color: rgba(249, 115, 22, 0.65);
-  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.15);
-}
-
-/* Smooth Scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 2px var(--accent-orange-glow);
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #07090E;
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1E2638;
-  border-radius: 4px;
+  background: #1B2332;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2D374D;
+  background: #2D3A52;
 }
 
 /* ==========================================================================
-   Hero Section Cinematic Background Integration
+   Hero Section Atmospheric Cinematic Styling
    ========================================================================== */
 
 .hero-section {
   position: relative;
-  background-color: #060b13;
+  background-color: #06090e;
   background-image:
     linear-gradient(
       90deg,
-      rgba(5, 10, 20, 0.88) 0%,
-      rgba(5, 10, 20, 0.70) 50%,
-      rgba(5, 10, 20, 0.25) 100%
+      rgba(7, 9, 13, 0.90) 0%,
+      rgba(7, 9, 13, 0.72) 48%,
+      rgba(7, 9, 13, 0.22) 100%
     ),
     url('/assets/hero-background.jpg');
   background-size: cover;
@@ -226,43 +220,92 @@ html {
   background-repeat: no-repeat;
 }
 
-/* Tablet adjustments */
 @media (max-width: 1024px) {
   .hero-section {
     background-position: 65% center;
     background-image:
       linear-gradient(
         180deg,
-        rgba(5, 10, 20, 0.90) 0%,
-        rgba(5, 10, 20, 0.75) 55%,
-        rgba(5, 10, 20, 0.35) 100%
+        rgba(7, 9, 13, 0.92) 0%,
+        rgba(7, 9, 13, 0.76) 55%,
+        rgba(7, 9, 13, 0.35) 100%
       ),
       url('/assets/hero-background.jpg');
   }
 }
 
-/* Mobile adjustments */
 @media (max-width: 640px) {
   .hero-section {
     background-position: 72% center;
     background-image:
       linear-gradient(
         180deg,
-        rgba(5, 10, 20, 0.92) 0%,
-        rgba(5, 10, 20, 0.82) 50%,
-        rgba(5, 10, 20, 0.45) 100%
+        rgba(7, 9, 13, 0.94) 0%,
+        rgba(7, 9, 13, 0.84) 50%,
+        rgba(7, 9, 13, 0.45) 100%
       ),
       url('/assets/hero-background.jpg');
   }
 }
 
 /* ==========================================================================
-   Subtle Text Entrance Animations (IntersectionObserver driven)
+   Advanced Multi-Section Sticky Storytelling System
+   ========================================================================== */
+
+@media (min-width: 1025px) and (min-height: 720px) {
+  /* Chapter 0: Hero Stage */
+  .story-chapter-hero {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  /* Chapter 1: Arduino 3D Digital Twin Stage */
+  .story-chapter-arduino {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.85);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  /* Chapter 2: About Story Editorial Stage */
+  .story-chapter-about {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.85);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  /* Flow Chapters: Content dense matrices & case studies flow gracefully over preceding chapters */
+  .story-chapter-flow {
+    position: relative;
+    z-index: 40;
+    box-shadow: 0 -36px 70px rgba(0, 0, 0, 0.92);
+    border-top: 1px solid var(--border-subtle);
+  }
+}
+
+/* On smaller screens or constrained height, fall back to fluid natural scroll */
+@media (max-width: 1024px), (max-height: 719px) {
+  .story-chapter-hero,
+  .story-chapter-arduino,
+  .story-chapter-about,
+  .story-chapter-flow {
+    position: relative !important;
+    top: auto !important;
+    box-shadow: none !important;
+  }
+}
+
+/* ==========================================================================
+   Motion Design: Text & Card Reveal System
    ========================================================================== */
 
 [data-reveal] {
   opacity: 0;
-  transform: translateY(22px);
+  transform: translateY(24px);
   transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
@@ -272,41 +315,33 @@ html {
   transform: translateY(0);
 }
 
+[data-reveal="slide-left"] {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+[data-reveal="slide-left"].revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 [data-reveal-delay="100"] { transition-delay: 100ms; }
 [data-reveal-delay="150"] { transition-delay: 150ms; }
 [data-reveal-delay="200"] { transition-delay: 200ms; }
 [data-reveal-delay="250"] { transition-delay: 250ms; }
 [data-reveal-delay="300"] { transition-delay: 300ms; }
 [data-reveal-delay="400"] { transition-delay: 400ms; }
+[data-reveal-delay="500"] { transition-delay: 500ms; }
 
 @media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
   [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
-  }
-}
-
-/* ==========================================================================
-   Sticky Scroll Storytelling Support
-   ========================================================================== */
-
-@media (min-width: 1025px) and (min-height: 700px) {
-  .sticky-story-hero {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-
-  .sticky-story-arduino {
-    position: relative;
-    z-index: 20;
-    box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.7);
-  }
-
-  .sticky-story-flow {
-    position: relative;
-    z-index: 30;
-    box-shadow: 0 -24px 48px rgba(0, 0, 0, 0.8);
   }
 }

@@ -12,12 +12,14 @@ import { ContactSection } from './sections/ContactSection.tsx';
 import { FuelCreativitySection } from './sections/FuelCreativitySection.tsx';
 import { Footer } from './components/Footer.tsx';
 import { BackToTop } from './components/BackToTop.tsx';
+import { ScrollProgress } from './components/ScrollProgress.tsx';
+import { CustomCursor } from './components/CustomCursor.tsx';
 import { useScrollReveal } from './hooks/useScrollReveal.ts';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<string>('hero');
 
-  // Activate subtle text entrance animations
+  // Activate subtle scroll-reveal entrance animations
   useScrollReveal();
 
   useEffect(() => {
@@ -39,7 +41,7 @@ export default function App() {
         const element = document.getElementById(sectionIds[i]);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 220) {
+          if (rect.top <= 240) {
             setActiveSection(sectionIds[i]);
             break;
           }
@@ -52,25 +54,35 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#080B10] text-[#F0F4F8] selection:bg-orange-500 selection:text-white">
+    <div className="min-h-screen bg-[#07090D] text-[#F5F7FA] selection:bg-[#FF8A24] selection:text-white">
+      {/* Scroll Progress Indicator */}
+      <ScrollProgress />
+
+      {/* Subtle Precision Pointer Cursor */}
+      <CustomCursor />
+
       {/* Navigation */}
       <Navbar activeSection={activeSection} />
 
-      {/* Main Content Sections with Sticky Scroll Storytelling Layers */}
+      {/* Multi-Chapter Scrollytelling Architecture */}
       <main className="relative">
-        {/* Layer 1: Pinned Cinematic Hero */}
-        <div className="sticky-story-hero">
+        {/* Chapter 0: Atmospheric Hero Stage (Pinned) */}
+        <div className="story-chapter-hero">
           <HeroSection />
         </div>
 
-        {/* Layer 2: Seamless Dark 3D Arduino Showcase Transition */}
-        <div className="sticky-story-arduino">
+        {/* Chapter 1: Arduino 3D Digital Twin Stage (Layered Over Hero) */}
+        <div className="story-chapter-arduino">
           <ArduinoShowcaseSection />
         </div>
 
-        {/* Layer 3: Narrative Flow & Content-Dense Sections (Natural Fluid Scroll) */}
-        <div className="sticky-story-flow bg-[#080B10]">
+        {/* Chapter 2: Philosophy & Engineering Perspective (Layered Over Arduino) */}
+        <div className="story-chapter-about">
           <AboutSection />
+        </div>
+
+        {/* Flow Chapters: Content-Dense Matrices, Case Studies & Finale (Natural Fluid Scroll) */}
+        <div className="story-chapter-flow bg-[#07090D]">
           <SkillsSection />
           <ProjectsSection />
           <EducationSection />

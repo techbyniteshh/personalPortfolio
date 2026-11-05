@@ -53,7 +53,6 @@ export const ContactSection: React.FC = () => {
       [name]: type === 'checkbox' ? checked : value,
     }));
 
-    // Clear individual error as user types
     if (formErrors[name]) {
       setFormErrors((prev) => {
         const updated = { ...prev };
@@ -66,7 +65,6 @@ export const ContactSection: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Client-side validation check
     const validation = validateContactForm(formData);
     if (!validation.isValid) {
       setFormErrors(validation.errors);
@@ -122,19 +120,25 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-[#080B10] text-[#F0F4F8] border-t border-white/[0.06]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="py-28 bg-[#07090D] text-[#F5F7FA] border-t border-white/[0.09] relative overflow-hidden">
+      {/* Background ambient lighting */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#FF8A24]/[0.05] rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
         <div data-reveal className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-700/80 text-xs font-semibold text-orange-400 mb-3 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0D1118] border border-white/[0.1] text-xs font-mono font-medium text-[#FF8A24] mb-3 backdrop-blur-md">
             <Mail className="w-3.5 h-3.5" />
-            <span>Get in Touch</span>
+            <span>FINALE // DIRECT TRANSMISSION</span>
           </div>
-          <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            {PORTFOLIO_CONFIG.contact.heading}
+          <h2 className="font-display text-display-2 text-white">
+            Have a Project in Mind? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A24] via-[#FDBA74] to-[#49C8FF]">
+              Let's Build It.
+            </span>
           </h2>
-          <p className="font-body mt-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+          <p className="font-body mt-4 text-base text-[#A3ADBA] leading-relaxed">
             {PORTFOLIO_CONFIG.contact.subheading}
           </p>
         </div>
@@ -143,24 +147,24 @@ export const ContactSection: React.FC = () => {
           
           {/* Left Side: Contact Information & Guarantees (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-3xl p-6 sm:p-8 bg-[#0D111A] border border-white/[0.08] shadow-lg">
-              <h3 className="font-heading font-bold text-xl text-white mb-4">
+            <div className="rounded-3xl p-6 sm:p-8 bg-[#0D1118] border border-white/[0.09] shadow-xl">
+              <h3 className="font-display font-bold text-xl text-white mb-4">
                 Let's Build Something Meaningful
               </h3>
-              <p className="font-body text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
-                Whether you're looking for an enthusiastic student intern, wanting to collaborate on an open-source tool, or discussing hardware & IoT solutions, I respond promptly.
+              <p className="font-body text-xs sm:text-sm text-[#A3ADBA] leading-relaxed mb-6">
+                Whether you're looking for an enthusiastic student developer, collaborating on open-source software, or discussing hardware IoT prototypes, I respond promptly.
               </p>
 
               <div className="space-y-4 text-xs sm:text-sm">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-slate-900/80 border border-slate-700/60 flex items-center justify-center text-orange-400 shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-[#121923] border border-white/[0.08] flex items-center justify-center text-[#FF8A24] shrink-0">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-[11px] text-slate-500 block font-medium">Direct Inbox</span>
+                    <span className="text-[11px] font-mono text-slate-500 block">DIRECT INBOX</span>
                     <a
                       href={`mailto:${PORTFOLIO_CONFIG.contact.ownerEmail}`}
-                      className="font-semibold text-white hover:text-orange-400 transition-colors"
+                      className="font-mono font-medium text-white hover:text-[#FF8A24] transition-colors"
                     >
                       {PORTFOLIO_CONFIG.contact.ownerEmail}
                     </a>
@@ -168,38 +172,38 @@ export const ContactSection: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-slate-900/80 border border-slate-700/60 flex items-center justify-center text-orange-400 shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-[#121923] border border-white/[0.08] flex items-center justify-center text-[#49C8FF] shrink-0">
                     <ShieldCheck className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-[11px] text-slate-500 block font-medium">Response Guarantee</span>
-                    <span className="font-semibold text-white">Within 24–48 Business Hours</span>
+                    <span className="text-[11px] font-mono text-slate-500 block">RESPONSE GUARANTEE</span>
+                    <span className="font-mono text-slate-200">Within 24–48 Business Hours</span>
                   </div>
                 </div>
               </div>
 
               {/* Backend Service Status Badge */}
               {backendStatus && (
-                <div className="mt-6 pt-5 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-slate-400">
+                <div className="mt-6 pt-5 border-t border-white/[0.08] flex items-center justify-between text-[11px] font-mono text-[#A3ADBA]">
                   <div className="flex items-center gap-2">
                     <Server className="w-3.5 h-3.5 text-emerald-400" />
                     <span>API: {backendStatus.provider}</span>
                   </div>
                   <span className="font-mono text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded">
-                    Online
+                    ONLINE
                   </span>
                 </div>
               )}
             </div>
 
             {/* Email Flow Transparency Note */}
-            <div className="rounded-2xl p-4 bg-black/40 border border-white/[0.06] text-xs text-slate-400 space-y-2">
+            <div className="rounded-2xl p-4 bg-[#040609] border border-white/[0.06] text-xs font-mono text-[#A3ADBA] space-y-2">
               <span className="font-bold text-slate-200 flex items-center gap-1.5">
-                <Lock className="w-3.5 h-3.5 text-orange-400" />
-                <span>What happens when you submit?</span>
+                <Lock className="w-3.5 h-3.5 text-[#FF8A24]" />
+                <span>WHAT HAPPENS ON SUBMISSION?</span>
               </span>
-              <p className="leading-relaxed">
-                1. Your input is validated & sanitized on the server.<br />
+              <p className="font-body text-xs text-slate-400 leading-relaxed">
+                1. Your inquiry is validated and sanitized on the API gateway.<br />
                 2. A secure notification is dispatched to Nitesh.<br />
                 3. You receive an automatic confirmation receipt at your email address.
               </p>
@@ -208,37 +212,37 @@ export const ContactSection: React.FC = () => {
 
           {/* Right Side: Working Contact Form (7 cols) */}
           <div className="lg:col-span-7">
-            <div className="rounded-3xl p-6 sm:p-8 bg-[#0D111A] border border-white/[0.08] shadow-lg">
+            <div className="rounded-3xl p-6 sm:p-8 bg-[#0D1118] border border-white/[0.09] shadow-xl">
               {submitResult && submitResult.success ? (
                 /* Success State */
                 <div className="text-center py-8 animate-in fade-in duration-300">
                   <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mx-auto mb-4">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h3 className="font-heading text-2xl font-bold text-white mb-2">
+                  <h3 className="font-display text-2xl font-bold text-white mb-2">
                     Message Dispatched!
                   </h3>
-                  <p className="font-body text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md mx-auto mb-6">
+                  <p className="font-body text-xs sm:text-sm text-[#A3ADBA] leading-relaxed max-w-md mx-auto mb-6">
                     {submitResult.message}
                   </p>
 
-                  <div className="p-4 rounded-2xl bg-black/40 border border-white/[0.06] max-w-md mx-auto text-left text-xs space-y-2 mb-6">
+                  <div className="p-4 rounded-2xl bg-[#040609] border border-white/[0.06] max-w-md mx-auto text-left text-xs font-mono space-y-2 mb-6">
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Owner Notification:</span>
-                      <span className="text-emerald-400 font-medium font-mono">Dispatched</span>
+                      <span className="text-slate-400">Owner Alert:</span>
+                      <span className="text-emerald-400 font-medium">Dispatched</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Visitor Confirmation Email:</span>
-                      <span className="text-emerald-400 font-medium font-mono">Sent to your inbox</span>
+                      <span className="text-slate-400">Visitor Receipt:</span>
+                      <span className="text-emerald-400 font-medium">Sent to your inbox</span>
                     </div>
                   </div>
 
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="neu-btn px-5 py-2.5 rounded-xl text-xs font-semibold text-white hover:text-orange-400"
+                    className="btn-ghost-dark px-5 py-2.5 rounded-xl text-xs font-mono font-medium text-white hover:text-[#FF8A24]"
                   >
-                    Send Another Message
+                    SEND ANOTHER MESSAGE
                   </button>
                 </div>
               ) : (
@@ -270,7 +274,7 @@ export const ContactSection: React.FC = () => {
                             href={`mailto:${PORTFOLIO_CONFIG.contact.ownerEmail}?subject=Direct Inquiry via Portfolio&body=${encodeURIComponent(
                               formData.message
                             )}`}
-                            className="underline font-semibold text-orange-400"
+                            className="underline font-mono text-[#FF8A24]"
                           >
                             Click here to email directly via your mail client &rarr;
                           </a>
@@ -282,8 +286,8 @@ export const ContactSection: React.FC = () => {
                   {/* Name and Email */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="fullName" className="block text-xs font-semibold text-slate-300 mb-1">
-                        Full Name <span className="text-orange-400">*</span>
+                      <label htmlFor="fullName" className="block text-xs font-mono font-medium text-slate-300 mb-1">
+                        FULL NAME <span className="text-[#FF8A24]">*</span>
                       </label>
                       <input
                         type="text"
@@ -293,18 +297,18 @@ export const ContactSection: React.FC = () => {
                         placeholder="e.g. Maya Sharma"
                         value={formData.fullName}
                         onChange={handleChange}
-                        className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-[#0B0F18] border ${
-                          formErrors.fullName ? 'border-red-500 bg-red-950/20' : 'border-white/[0.08]'
-                        } text-white placeholder-slate-500 focus:outline-none focus:border-orange-500/50`}
+                        className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-[#040609] border ${
+                          formErrors.fullName ? 'border-red-500 bg-red-950/20' : 'border-white/[0.09]'
+                        } text-white placeholder-slate-500 focus:outline-none focus:border-[#FF8A24]/50`}
                       />
                       {formErrors.fullName && (
-                        <p className="mt-1 text-[11px] text-red-400">{formErrors.fullName}</p>
+                        <p className="mt-1 text-[11px] font-mono text-red-400">{formErrors.fullName}</p>
                       )}
                     </div>
 
                     <div>
-                      <label htmlFor="email" className="block text-xs font-semibold text-slate-300 mb-1">
-                        Email Address <span className="text-orange-400">*</span>
+                      <label htmlFor="email" className="block text-xs font-mono font-medium text-slate-300 mb-1">
+                        EMAIL ADDRESS <span className="text-[#FF8A24]">*</span>
                       </label>
                       <input
                         type="email"
@@ -314,12 +318,12 @@ export const ContactSection: React.FC = () => {
                         placeholder="e.g. maya@example.com"
                         value={formData.email}
                         onChange={handleChange}
-                        className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-[#0B0F18] border ${
-                          formErrors.email ? 'border-red-500 bg-red-950/20' : 'border-white/[0.08]'
-                        } text-white placeholder-slate-500 focus:outline-none focus:border-orange-500/50`}
+                        className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-[#040609] border ${
+                          formErrors.email ? 'border-red-500 bg-red-950/20' : 'border-white/[0.09]'
+                        } text-white placeholder-slate-500 focus:outline-none focus:border-[#FF8A24]/50`}
                       />
                       {formErrors.email && (
-                        <p className="mt-1 text-[11px] text-red-400">{formErrors.email}</p>
+                        <p className="mt-1 text-[11px] font-mono text-red-400">{formErrors.email}</p>
                       )}
                     </div>
                   </div>
@@ -327,18 +331,18 @@ export const ContactSection: React.FC = () => {
                   {/* Category and Subject */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="category" className="block text-xs font-semibold text-slate-300 mb-1">
-                        Inquiry Category <span className="text-orange-400">*</span>
+                      <label htmlFor="category" className="block text-xs font-mono font-medium text-slate-300 mb-1">
+                        INQUIRY CATEGORY <span className="text-[#FF8A24]">*</span>
                       </label>
                       <select
                         id="category"
                         name="category"
                         value={formData.category}
                         onChange={handleChange}
-                        className="w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-[#0B0F18] border border-white/[0.08] text-white focus:outline-none focus:border-orange-500/50"
+                        className="w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-[#040609] border border-white/[0.09] text-white focus:outline-none focus:border-[#FF8A24]/50"
                       >
                         {PORTFOLIO_CONFIG.contact.categories.map((cat) => (
-                          <option key={cat} value={cat} className="bg-[#0D111A] text-white">
+                          <option key={cat} value={cat} className="bg-[#0D1118] text-white">
                             {cat}
                           </option>
                         ))}
@@ -346,23 +350,23 @@ export const ContactSection: React.FC = () => {
                     </div>
 
                     <div>
-                      <label htmlFor="subject" className="block text-xs font-semibold text-slate-300 mb-1">
-                        Subject Line <span className="text-orange-400">*</span>
+                      <label htmlFor="subject" className="block text-xs font-mono font-medium text-slate-300 mb-1">
+                        SUBJECT LINE <span className="text-[#FF8A24]">*</span>
                       </label>
                       <input
                         type="text"
                         id="subject"
                         name="subject"
                         required
-                        placeholder="e.g. Collaboration on Open-Source Web Tool"
+                        placeholder="e.g. Collaboration on Embedded IoT System"
                         value={formData.subject}
                         onChange={handleChange}
-                        className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-[#0B0F18] border ${
-                          formErrors.subject ? 'border-red-500 bg-red-950/20' : 'border-white/[0.08]'
-                        } text-white placeholder-slate-500 focus:outline-none focus:border-orange-500/50`}
+                        className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-[#040609] border ${
+                          formErrors.subject ? 'border-red-500 bg-red-950/20' : 'border-white/[0.09]'
+                        } text-white placeholder-slate-500 focus:outline-none focus:border-[#FF8A24]/50`}
                       />
                       {formErrors.subject && (
-                        <p className="mt-1 text-[11px] text-red-400">{formErrors.subject}</p>
+                        <p className="mt-1 text-[11px] font-mono text-red-400">{formErrors.subject}</p>
                       )}
                     </div>
                   </div>
@@ -370,8 +374,8 @@ export const ContactSection: React.FC = () => {
                   {/* Message */}
                   <div>
                     <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="message" className="block text-xs font-semibold text-slate-300">
-                        Message Details <span className="text-orange-400">*</span>
+                      <label htmlFor="message" className="block text-xs font-mono font-medium text-slate-300">
+                        MESSAGE DETAILS <span className="text-[#FF8A24]">*</span>
                       </label>
                       <span className="text-[11px] font-mono text-slate-500">
                         {formData.message.length}/3000
@@ -385,19 +389,19 @@ export const ContactSection: React.FC = () => {
                       placeholder="Hi Nitesh, I came across your portfolio and wanted to discuss..."
                       value={formData.message}
                       onChange={handleChange}
-                      className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-[#0B0F18] border ${
-                        formErrors.message ? 'border-red-500 bg-red-950/20' : 'border-white/[0.08]'
-                      } text-white placeholder-slate-500 resize-none focus:outline-none focus:border-orange-500/50`}
+                      className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-[#040609] border ${
+                        formErrors.message ? 'border-red-500 bg-red-950/20' : 'border-white/[0.09]'
+                      } text-white placeholder-slate-500 resize-none focus:outline-none focus:border-[#FF8A24]/50`}
                     />
                     {formErrors.message && (
-                      <p className="mt-1 text-[11px] text-red-400">{formErrors.message}</p>
+                      <p className="mt-1 text-[11px] font-mono text-red-400">{formErrors.message}</p>
                     )}
                   </div>
 
                   {/* Preferred Contact Method */}
                   <div>
-                    <label htmlFor="preferredContact" className="block text-xs font-semibold text-slate-300 mb-1">
-                      Preferred Reply Method (Optional)
+                    <label htmlFor="preferredContact" className="block text-xs font-mono font-medium text-slate-300 mb-1">
+                      PREFERRED REPLY CHANNEL (OPTIONAL)
                     </label>
                     <input
                       type="text"
@@ -406,7 +410,7 @@ export const ContactSection: React.FC = () => {
                       placeholder="e.g. Email / LinkedIn / Discord"
                       value={formData.preferredContact}
                       onChange={handleChange}
-                      className="w-full px-3.5 py-2 rounded-xl text-xs font-medium bg-[#0B0F18] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:border-orange-500/50"
+                      className="w-full px-3.5 py-2 rounded-xl text-xs font-medium bg-[#040609] border border-white/[0.09] text-white placeholder-slate-500 focus:outline-none focus:border-[#FF8A24]/50"
                     />
                   </div>
 
@@ -418,14 +422,14 @@ export const ContactSection: React.FC = () => {
                         name="consent"
                         checked={formData.consent}
                         onChange={handleChange}
-                        className="mt-0.5 accent-orange-500 rounded"
+                        className="mt-0.5 accent-[#FF8A24] rounded"
                       />
-                      <span className="text-xs text-slate-400">
-                        I consent to Nitesh Chaurasiya processing my name and email solely for replying to this message. No marketing, no spam.
+                      <span className="text-xs text-[#A3ADBA]">
+                        I consent to Nitesh Chaurasiya processing my name and email solely for replying to this message. Zero spam.
                       </span>
                     </label>
                     {formErrors.consent && (
-                      <p className="mt-1 text-[11px] text-red-400">{formErrors.consent}</p>
+                      <p className="mt-1 text-[11px] font-mono text-red-400">{formErrors.consent}</p>
                     )}
                   </div>
 
@@ -434,12 +438,12 @@ export const ContactSection: React.FC = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="neu-btn-primary w-full py-3.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 shadow-md disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
+                      className="btn-primary-orange w-full py-3.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 shadow-lg disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? (
                         <>
                           <RefreshCw className="w-4 h-4 animate-spin" />
-                          <span>Delivering Message & Sending Confirmation...</span>
+                          <span>Dispatching Transmission & Generating Receipt...</span>
                         </>
                       ) : (
                         <>
