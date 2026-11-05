@@ -1,0 +1,226 @@
+@import "tailwindcss";
+
+:root {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Theme Colors */
+  --bg-main: #F4EFEA;
+  --surface-main: #F4EFEA;
+  --surface-raised: #FAF7F2;
+  --surface-sunken: #ECE6DE;
+  
+  --text-primary: #1C2228;
+  --text-secondary: #4A5565;
+  --text-muted: #6B7787;
+
+  --accent-orange: #F97316;
+  --accent-orange-hover: #EA580C;
+  --accent-orange-light: #FFEDD5;
+  --accent-orange-glow: rgba(249, 115, 22, 0.3);
+
+  /* Neumorphic Shadows */
+  --shadow-raised-sm: 3px 3px 7px rgba(184, 172, 158, 0.32), -3px -3px 7px rgba(255, 255, 255, 0.85);
+  --shadow-raised-md: 6px 6px 16px rgba(184, 172, 158, 0.35), -6px -6px 16px rgba(255, 255, 255, 0.9);
+  --shadow-raised-lg: 10px 10px 24px rgba(184, 172, 158, 0.38), -10px -10px 24px rgba(255, 255, 255, 0.95);
+  
+  --shadow-inset-sm: inset 2px 2px 5px rgba(184, 172, 158, 0.32), inset -2px -2px 5px rgba(255, 255, 255, 0.8);
+  --shadow-inset-md: inset 4px 4px 8px rgba(184, 172, 158, 0.38), inset -4px -4px 8px rgba(255, 255, 255, 0.85);
+  
+  --shadow-orange: 0 4px 16px rgba(249, 115, 22, 0.32);
+  --shadow-orange-active: 0 2px 8px rgba(249, 115, 22, 0.45);
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Custom Neumorphic Utility Classes */
+.neu-raised-sm {
+  background: var(--surface-main);
+  box-shadow: var(--shadow-raised-sm);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neu-raised {
+  background: var(--surface-main);
+  box-shadow: var(--shadow-raised-md);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neu-raised-lg {
+  background: var(--surface-main);
+  box-shadow: var(--shadow-raised-lg);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neu-inset {
+  background: var(--surface-sunken);
+  box-shadow: var(--shadow-inset-md);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neu-inset-sm {
+  background: var(--surface-sunken);
+  box-shadow: var(--shadow-inset-sm);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Neumorphic Interactive Button */
+.neu-btn {
+  background: var(--surface-main);
+  box-shadow: var(--shadow-raised-sm);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition: all 0.18s ease-in-out;
+  cursor: pointer;
+  user-select: none;
+}
+
+.neu-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-raised-md);
+}
+
+.neu-btn:active, .neu-btn[aria-pressed="true"], .neu-btn.is-active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-inset-sm);
+  background: var(--surface-sunken);
+}
+
+.neu-btn:focus-visible {
+  outline: 2px solid var(--accent-orange);
+  outline-offset: 3px;
+}
+
+/* Neumorphic Primary Orange Button */
+.neu-btn-primary {
+  background: linear-gradient(135deg, #FB923C 0%, #EA580C 100%);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.38), -2px -2px 6px rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.18s ease-in-out;
+}
+
+.neu-btn-primary:hover {
+  background: linear-gradient(135deg, #F97316 0%, #C2410C 100%);
+  box-shadow: 0 6px 18px rgba(234, 88, 12, 0.48), -2px -2px 8px rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.neu-btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Neumorphic Input Field */
+.neu-input {
+  background: var(--surface-sunken);
+  box-shadow: var(--shadow-inset-sm);
+  border: 1px solid rgba(184, 172, 158, 0.2);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.neu-input:focus {
+  outline: none;
+  border-color: rgba(249, 115, 22, 0.6);
+  box-shadow: var(--shadow-inset-sm), 0 0 0 2px rgba(249, 115, 22, 0.2);
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #EFE9E1;
+}
+::-webkit-scrollbar-thumb {
+  background: #C8BEB2;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #AFA294;
+}
+
+/* ==========================================================================
+   Hero Section Cinematic Background Integration
+   ========================================================================== */
+
+.hero-section {
+  position: relative;
+  background-color: #060b13;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(5, 10, 20, 0.82) 0%,
+      rgba(5, 10, 20, 0.62) 48%,
+      rgba(5, 10, 20, 0.20) 100%
+    ),
+    url('/assets/hero-background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* Tablet adjustments (up to 1024px) */
+@media (max-width: 1024px) {
+  .hero-section {
+    background-position: 65% center;
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(5, 10, 20, 0.85) 0%,
+        rgba(5, 10, 20, 0.70) 55%,
+        rgba(5, 10, 20, 0.30) 100%
+      ),
+      url('/assets/hero-background.jpg');
+  }
+}
+
+/* Mobile adjustments (smartphones up to 640px) */
+@media (max-width: 640px) {
+  .hero-section {
+    background-position: 72% center;
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(5, 10, 20, 0.88) 0%,
+        rgba(5, 10, 20, 0.78) 50%,
+        rgba(5, 10, 20, 0.40) 100%
+      ),
+      url('/assets/hero-background.jpg');
+  }
+}
+
+/* Ensure navbar brand text remains high-contrast when transparent over dark hero */
+header.bg-transparent a[href="#hero"] span.text-\[\#1C2228\] {
+  color: #FFFFFF;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}

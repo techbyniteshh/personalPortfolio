@@ -1,0 +1,29 @@
+
+# =====================================
+# TechByNiteshh - Robots.txt
+# Website: https://niteshhlive.xyz
+# =====================================
+
+# Allow all search engine crawlers
+User-agent: *
+Allow: /
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# Yandex
+User-agent: Yandex
+Allow: /
+
+# Block private or non-public directories
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://niteshhlive.xyz/sitemap.xml
