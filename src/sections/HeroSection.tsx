@@ -5,7 +5,6 @@ import {
   Github,
   Linkedin,
   Twitter,
-  ArrowDown,
 } from 'lucide-react';
 import { PORTFOLIO_CONFIG } from '../config/portfolio.ts';
 
@@ -13,45 +12,19 @@ export const HeroSection: React.FC = () => {
   return (
     <section
       id="hero"
-      className="hero-section relative min-h-[92vh] lg:min-h-screen flex items-center pt-28 pb-20 sm:pt-36 sm:pb-24 overflow-hidden"
+      className="hero-section relative min-h-[88vh] lg:min-h-screen flex items-center pt-32 pb-24 sm:pt-40 sm:pb-28 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Left Column: Focused Identity & Intentional Typography (7 Cols) */}
-          <div className="lg:col-span-7 flex flex-col items-start z-10">
+          {/* Left Column: Focused Identity & Editorial Headline (8 Cols) */}
+          <div className="lg:col-span-8 flex flex-col items-start z-10">
             
-            {/* System Status Indicator */}
-            <div
-              data-reveal
-              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#0D1118]/80 border border-white/[0.12] text-xs font-mono text-slate-200 mb-6 backdrop-blur-md shadow-sm"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <span className="text-slate-300 tracking-wide font-medium">
-                {PORTFOLIO_CONFIG.profile.availabilityStatus}
-              </span>
-              <span className="text-slate-600">&bull;</span>
-              <span className="text-[#FF8A24] font-semibold tracking-wider">2026</span>
-            </div>
-
-            {/* Developer Monogram & Role */}
-            <div data-reveal data-reveal-delay="100" className="mb-4">
-              <span className="text-xs sm:text-sm font-mono uppercase tracking-widest text-[#FF8A24] font-semibold block mb-1">
-                {PORTFOLIO_CONFIG.profile.name}
-              </span>
-              <p className="text-sm sm:text-base text-[#A3ADBA] font-medium tracking-wide">
-                {PORTFOLIO_CONFIG.profile.role}
-              </p>
-            </div>
-
-            {/* Architectural Headline */}
+            {/* Architectural Headline with Playfair Display */}
             <h1
               data-reveal
-              data-reveal-delay="150"
-              className="font-display text-display-1 text-white mb-6"
+              className="text-display-1 text-white mb-10 max-w-3xl font-bold tracking-tight leading-[1.12]"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               Building Ideas Into{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A24] via-[#FDBA74] to-[#49C8FF]">
@@ -60,24 +33,15 @@ export const HeroSection: React.FC = () => {
               Digital Experiences.
             </h1>
 
-            {/* Concise Introduction */}
-            <p
-              data-reveal
-              data-reveal-delay="200"
-              className="font-body text-base sm:text-lg text-[#A3ADBA] leading-relaxed max-w-xl mb-8"
-            >
-              {PORTFOLIO_CONFIG.profile.subheadline}
-            </p>
-
             {/* Primary Action Buttons */}
             <div
               data-reveal
-              data-reveal-delay="250"
-              className="flex flex-wrap items-center gap-4 mb-10 w-full sm:w-auto"
+              data-reveal-delay="150"
+              className="flex flex-wrap items-center gap-4 mb-12 w-full sm:w-auto"
             >
               <a
                 href="#projects"
-                className="btn-primary-orange px-7 py-3.5 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2 shadow-lg hover:scale-[1.02] transition-transform w-full sm:w-auto"
+                className="btn-primary-orange px-8 py-4 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2 shadow-lg hover:scale-[1.02] transition-transform w-full sm:w-auto"
               >
                 <span>View Projects</span>
                 <ChevronRight className="w-4 h-4" />
@@ -85,7 +49,7 @@ export const HeroSection: React.FC = () => {
 
               <a
                 href="#contact"
-                className="btn-ghost-dark px-7 py-3.5 rounded-2xl text-sm font-semibold text-white flex items-center justify-center gap-2 hover:border-[#FF8A24]/40 hover:text-[#FF8A24] backdrop-blur-md transition-all w-full sm:w-auto"
+                className="btn-ghost-dark px-8 py-4 rounded-2xl text-sm font-semibold text-white flex items-center justify-center gap-2 hover:border-[#FF8A24]/40 hover:text-[#FF8A24] backdrop-blur-md transition-all w-full sm:w-auto"
               >
                 <Mail className="w-4 h-4 text-[#FF8A24]" />
                 <span>Contact Me</span>
@@ -95,7 +59,7 @@ export const HeroSection: React.FC = () => {
             {/* Minimal Social Links Row */}
             <div
               data-reveal
-              data-reveal-delay="300"
+              data-reveal-delay="200"
               className="pt-6 border-t border-white/[0.08] w-full max-w-md flex items-center gap-3"
             >
               <span className="text-xs font-mono text-slate-400 mr-1">FIND ME ON:</span>
@@ -142,7 +106,7 @@ export const HeroSection: React.FC = () => {
           </div>
 
           {/* Right Column: Clean, Spacious Negative Space letting Cinematic Backdrop breathe */}
-          <div className="lg:col-span-5 hidden lg:block pointer-events-none select-none" aria-hidden="true" />
+          <div className="lg:col-span-4 hidden lg:block pointer-events-none select-none" aria-hidden="true" />
 
         </div>
       </div>

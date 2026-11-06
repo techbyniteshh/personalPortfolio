@@ -22,6 +22,7 @@ export default function App() {
   // Activate subtle scroll-reveal entrance animations
   useScrollReveal();
 
+  // Scrollspy: active section tracking for navbar
   useEffect(() => {
     const sectionIds = [
       'hero',
@@ -53,6 +54,39 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Dynamic Sticky Alignment for Full-Page Scrollytelling:
+  // When a section's height exceeds the viewport height on desktop, pin when its
+  // bottom reaches the viewport bottom so all cards and buttons are fully viewable.
+  useEffect(() => {
+    const updateStickyAlignment = () => {
+      const isDesktop = window.innerWidth >= 1025 && window.innerHeight >= 720;
+      const chapters = document.querySelectorAll<HTMLElement>('.story-chapter');
+
+      chapters.forEach((el) => {
+        if (!isDesktop) {
+          el.style.top = '';
+          return;
+        }
+        const vh = window.innerHeight;
+        const h = el.offsetHeight;
+        if (h > vh) {
+          el.style.top = `${vh - h}px`;
+        } else {
+          el.style.top = '0px';
+        }
+      });
+    };
+
+    updateStickyAlignment();
+    window.addEventListener('resize', updateStickyAlignment, { passive: true });
+    const timer = setTimeout(updateStickyAlignment, 600);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateStickyAlignment);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#07090D] text-[#F5F7FA] selection:bg-[#FF8A24] selection:text-white">
       {/* Scroll Progress Indicator */}
@@ -64,31 +98,55 @@ export default function App() {
       {/* Navigation */}
       <Navbar activeSection={activeSection} />
 
-      {/* Multi-Chapter Scrollytelling Architecture */}
+      {/* Multi-Chapter Scrollytelling Architecture (Full Page Sequence) */}
       <main className="relative">
-        {/* Chapter 0: Atmospheric Hero Stage (Pinned) */}
-        <div className="story-chapter-hero">
+        {/* Chapter 0: Hero Stage */}
+        <div className="story-chapter story-chapter-hero">
           <HeroSection />
         </div>
 
-        {/* Chapter 1: Arduino 3D Digital Twin Stage (Layered Over Hero) */}
-        <div className="story-chapter-arduino">
+        {/* Chapter 1: Arduino 3D Digital Twin Stage */}
+        <div className="story-chapter story-chapter-arduino">
           <ArduinoShowcaseSection />
         </div>
 
-        {/* Chapter 2: Philosophy & Engineering Perspective (Layered Over Arduino) */}
-        <div className="story-chapter-about">
+        {/* Chapter 2: Philosophy & Engineering Perspective */}
+        <div className="story-chapter story-chapter-about">
           <AboutSection />
         </div>
 
-        {/* Flow Chapters: Content-Dense Matrices, Case Studies & Finale (Natural Fluid Scroll) */}
-        <div className="story-chapter-flow bg-[#07090D]">
+        {/* Chapter 3: Technical Capability Matrix */}
+        <div className="story-chapter story-chapter-skills">
           <SkillsSection />
+        </div>
+
+        {/* Chapter 4: Featured Case Studies */}
+        <div className="story-chapter story-chapter-projects">
           <ProjectsSection />
+        </div>
+
+        {/* Chapter 5: Academic Milestones */}
+        <div className="story-chapter story-chapter-education">
           <EducationSection />
+        </div>
+
+        {/* Chapter 6: Competitive Hackathon Honors */}
+        <div className="story-chapter story-chapter-achievements">
           <AchievementsSection />
+        </div>
+
+        {/* Chapter 7: Field Notes & Technical Logs */}
+        <div className="story-chapter story-chapter-articles">
           <ArticlesSection />
+        </div>
+
+        {/* Chapter 8: Direct Contact & Transmission */}
+        <div className="story-chapter story-chapter-contact">
           <ContactSection />
+        </div>
+
+        {/* Chapter 9: Community & Voluntary Backing */}
+        <div className="story-chapter story-chapter-fuel">
           <FuelCreativitySection />
         </div>
       </main>

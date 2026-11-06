@@ -21,7 +21,7 @@ import { ErrorBoundary } from '../components/ErrorBoundary.tsx';
 
 export const ArduinoShowcaseSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
   const [hasWebGL, setHasWebGL] = useState<boolean>(true);
   const [webglError, setWebglError] = useState<string | null>(null);
   const [activePresetId, setActivePresetId] = useState<string>('reference');

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Terminal, Mail, Sparkles } from 'lucide-react';
-import { PORTFOLIO_CONFIG } from '../config/portfolio.ts';
+import { Menu, X } from 'lucide-react';
 
 interface NavbarProps {
   activeSection: string;
@@ -19,13 +18,13 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
   }, []);
 
   const navLinks = [
-    { name: '01 3D Arduino', href: '#arduino-experience' },
-    { name: '02 About', href: '#about' },
-    { name: '03 Skills', href: '#skills' },
-    { name: '04 Projects', href: '#projects' },
-    { name: '05 Education', href: '#education' },
-    { name: '06 Certs', href: '#achievements' },
-    { name: '07 Notes', href: '#articles' },
+    { name: '3D Arduino', href: '#arduino-experience' },
+    { name: 'About', href: '#about' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Projects', href: '#projects' },
+    { name: 'Education', href: '#education' },
+    { name: 'Certs', href: '#achievements' },
+    { name: 'Notes', href: '#articles' },
   ];
 
   return (
@@ -38,22 +37,17 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Brand Mark */}
+          {/* Brand Mark: Exclusive Logo Image */}
           <a
             href="#hero"
-            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8A24] rounded-xl p-1"
+            className="flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8A24] rounded-full transition-transform hover:scale-105"
+            aria-label="TechByNiteshh Homepage"
           >
-            <div className="w-10 h-10 rounded-xl bg-[#0D1118] border border-white/[0.12] flex items-center justify-center text-[#FF8A24] group-hover:border-[#FF8A24]/50 group-hover:scale-105 transition-all shadow-sm">
-              <Terminal className="w-5 h-5 stroke-[2.2]" />
-            </div>
-            <div>
-              <span className="font-display font-extrabold text-base sm:text-lg tracking-tight text-white block leading-tight">
-                {PORTFOLIO_CONFIG.profile.name}
-              </span>
-              <span className="text-[11px] font-mono text-[#FF8A24] font-medium block tracking-wider">
-                {PORTFOLIO_CONFIG.profile.logoSubtitle}
-              </span>
-            </div>
+            <img
+              src="/channels4_profile.jpg"
+              alt="TechByNiteshh Logo"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover border border-white/[0.15] shadow-md group-hover:border-[#FF8A24]/60 transition-all"
+            />
           </a>
 
           {/* Desktop Navigation Links */}
@@ -64,7 +58,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`px-3.5 py-1.5 rounded-full font-mono text-[11px] tracking-wide transition-all duration-200 ${
+                  className={`px-4 py-1.5 rounded-full font-mono text-[11px] tracking-wide transition-all duration-200 ${
                     isActive
                       ? 'bg-[#FF8A24]/15 text-[#FF8A24] font-semibold border border-[#FF8A24]/30 shadow-sm'
                       : 'hover:text-white hover:bg-white/[0.04]'
@@ -75,17 +69,6 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
               );
             })}
           </nav>
-
-          {/* Right Action Button */}
-          <div className="hidden sm:flex items-center gap-3">
-            <a
-              href="#contact"
-              className="btn-primary-orange px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5"
-            >
-              <Mail className="w-3.5 h-3.5" />
-              <span>Let's Talk</span>
-            </a>
-          </div>
 
           {/* Mobile Menu Hamburger */}
           <div className="flex lg:hidden items-center gap-2">

@@ -2,6 +2,7 @@
 
 :root {
   --font-display: 'Sora', system-ui, -apple-system, sans-serif;
+  --font-hero: 'Playfair Display', Georgia, serif;
   --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 
@@ -82,6 +83,10 @@ code, pre, .font-mono {
 
 .font-display {
   font-family: var(--font-display);
+}
+
+.font-hero {
+  font-family: var(--font-hero);
 }
 
 .font-body {
@@ -249,50 +254,70 @@ code, pre, .font-mono {
 }
 
 /* ==========================================================================
-   Advanced Multi-Section Sticky Storytelling System
+   Advanced Multi-Section Sticky Storytelling System (All Chapters)
    ========================================================================== */
 
+.story-chapter {
+  background-color: var(--bg-primary);
+  position: relative;
+}
+
 @media (min-width: 1025px) and (min-height: 720px) {
-  /* Chapter 0: Hero Stage */
+  .story-chapter {
+    position: sticky;
+    top: 0;
+    box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.85);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  /* Layered z-index hierarchy across all chapters */
   .story-chapter-hero {
     position: sticky;
     top: 0;
     z-index: 10;
   }
-
-  /* Chapter 1: Arduino 3D Digital Twin Stage */
   .story-chapter-arduino {
-    position: sticky;
-    top: 0;
     z-index: 20;
-    box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.85);
-    border-top: 1px solid var(--border-subtle);
   }
-
-  /* Chapter 2: About Story Editorial Stage */
   .story-chapter-about {
-    position: sticky;
-    top: 0;
     z-index: 30;
-    box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.85);
-    border-top: 1px solid var(--border-subtle);
   }
-
-  /* Flow Chapters: Content dense matrices & case studies flow gracefully over preceding chapters */
-  .story-chapter-flow {
-    position: relative;
+  .story-chapter-skills {
     z-index: 40;
-    box-shadow: 0 -36px 70px rgba(0, 0, 0, 0.92);
-    border-top: 1px solid var(--border-subtle);
+  }
+  .story-chapter-projects {
+    z-index: 50;
+  }
+  .story-chapter-education {
+    z-index: 60;
+  }
+  .story-chapter-achievements {
+    z-index: 70;
+  }
+  .story-chapter-articles {
+    z-index: 80;
+  }
+  .story-chapter-contact {
+    z-index: 90;
+  }
+  .story-chapter-fuel {
+    z-index: 100;
   }
 }
 
 /* On smaller screens or constrained height, fall back to fluid natural scroll */
 @media (max-width: 1024px), (max-height: 719px) {
+  .story-chapter,
   .story-chapter-hero,
   .story-chapter-arduino,
   .story-chapter-about,
-  .story-chapter-flow {
+  .story-chapter-skills,
+  .story-chapter-projects,
+  .story-chapter-education,
+  .story-chapter-achievements,
+  .story-chapter-articles,
+  .story-chapter-contact,
+  .story-chapter-fuel {
     position: relative !important;
     top: auto !important;
     box-shadow: none !important;
