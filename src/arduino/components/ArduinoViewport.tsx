@@ -157,6 +157,10 @@ export const ArduinoViewport: React.FC<ArduinoViewportProps> = ({
       typeof navigator !== 'undefined' &&
       (navigator.webdriver || /HeadlessChrome/i.test(navigator.userAgent));
 
+    const width = container.clientWidth || window.innerWidth || 800;
+    const height = container.clientHeight || window.innerHeight || 600;
+    const initialThemeCfg = THEME_CONFIG[theme] || THEME_CONFIG.dark;
+
     try {
       renderer = new THREE.WebGLRenderer({
         antialias: !isHeadless,
@@ -171,12 +175,7 @@ export const ArduinoViewport: React.FC<ArduinoViewportProps> = ({
       );
       renderer.shadowMap.enabled = !isHeadless;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-      const initialThemeCfg = THEME_CONFIG[theme] || THEME_CONFIG.dark;
       renderer.setClearColor(initialThemeCfg.bgHex, 1);
-
-      const width = container.clientWidth || window.innerWidth || 800;
-      const height = container.clientHeight || window.innerHeight || 600;
       renderer.setSize(width, height);
       renderer.domElement.setAttribute('data-testid', 'arduino-webgl-canvas');
       container.appendChild(renderer.domElement);
@@ -190,100 +189,100 @@ export const ArduinoViewport: React.FC<ArduinoViewportProps> = ({
       envTexture = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
       scene.environment = envTexture;
       pmremGenerator.dispose();
-    } catch (webglErr: any) {
-      console.warn('WebGL context creation failed in ArduinoViewport:', webglErr);
+
+      // Camera initialized at the exact Reference Photo angle
+      const refPreset = CAMERA_PRESETS[0];
+      camera = new THREE.PerspectiveCamera(
+        refPreset.fov,
+        width / height,
+        0.1,
+        100
+      );
+      camera.position.set(...refPreset.position);
+
+      controls = new OrbitControls(camera, renderer.domElement);
+      controls.target.set(...refPreset.target);
+      controls.enableDamping = !isHeadless;
+      controls.dampingFactor = 0.08;
+      controls.minDistance = 2.4;
+      controls.maxDistance = 16.0;
+      controls.maxPolarAngle = Math.PI * 0.85;
+      controls.update();
+
+      const stopPresetTransition = () => {
+        stateRef.current.transitioningPreset = false;
+        stateRef.current.needsRender = true;
+      };
+      const onControlsChange = () => {
+        stateRef.current.needsRender = true;
+      };
+      controls.addEventListener('start', stopPresetTransition);
+      controls.addEventListener('change', onControlsChange);
+
+      // ─── STUDIO 3-POINT LIGHTING RIG (Warm Key + Cool Hemisphere Fill + Rim) ───
+      const hemiLight = new THREE.HemisphereLight(0xf4f8ff, 0x8ea0b2, 0.95);
+      hemiLight.position.set(0, 12, 0);
+      scene.add(hemiLight);
+
+      const keyLight = new THREE.DirectionalLight(0xfff8ee, 2.1);
+      keyLight.position.set(5.5, 11.5, 6.5);
+      keyLight.castShadow = !isHeadless;
+      keyLight.shadow.mapSize.set(2048, 2048);
+      keyLight.shadow.camera.left = -5.5;
+      keyLight.shadow.camera.right = 5.5;
+      keyLight.shadow.camera.top = 5.5;
+      keyLight.shadow.camera.bottom = -5.5;
+      keyLight.shadow.camera.near = 2;
+      keyLight.shadow.camera.far = 25;
+      keyLight.shadow.bias = -0.0005;
+      keyLight.shadow.normalBias = 0.02;
+      scene.add(keyLight);
+
+      const fillLight = new THREE.DirectionalLight(0xdbeafe, 0.75);
+      fillLight.position.set(-7.0, 6.0, -4.0);
+      scene.add(fillLight);
+
+      const rimLight = new THREE.DirectionalLight(0xe0f7fa, 0.6);
+      rimLight.position.set(0.0, 4.0, -8.5);
+      scene.add(rimLight);
+
+      // ─── BUILD ARDUINO UNO R3 3D MODEL ────────────────────────────────────────
+      const maxAniso = isHeadless ? 1 : renderer.capabilities.getMaxAnisotropy() || 4;
+      arduinoModel = buildArduinoModel(maxAniso);
+      scene.add(arduinoModel.root);
+
+      // ─── GROUND CONTACT SHADOW PLANE ──────────────────────────────────────────
+      contactShadowTex = createRadialContactShadowTexture();
+      contactShadowGeo = new THREE.PlaneGeometry(9.6, 7.6);
+      contactShadowMat = new THREE.MeshBasicMaterial({
+        map: contactShadowTex,
+        transparent: true,
+        opacity: initialThemeCfg.shadowOpacity,
+        depthWrite: false,
+      });
+      const contactShadowMesh = new THREE.Mesh(contactShadowGeo, contactShadowMat);
+      contactShadowMesh.rotation.x = -Math.PI / 2;
+      contactShadowMesh.position.set(0, -0.42, 0.15);
+      scene.add(contactShadowMesh);
+
+      sceneObjectsRef.current = {
+        renderer,
+        scene,
+        camera,
+        controls,
+        model: arduinoModel,
+        contactShadowMat,
+      };
+
+      // Initial synchronous render
+      renderer.render(scene, camera);
+    } catch (initErr: any) {
+      console.warn('Three.js / WebGL initialization encountered an issue:', initErr);
       if (onError) {
-        onError(webglErr instanceof Error ? webglErr : new Error(String(webglErr)));
+        onError(initErr instanceof Error ? initErr : new Error(String(initErr)));
       }
       return;
     }
-
-    // Camera initialized at the exact Reference Photo angle
-    const refPreset = CAMERA_PRESETS[0];
-    camera = new THREE.PerspectiveCamera(
-      refPreset.fov,
-      width / height,
-      0.1,
-      100
-    );
-    camera.position.set(...refPreset.position);
-
-    controls = new OrbitControls(camera, renderer.domElement);
-    controls.target.set(...refPreset.target);
-    controls.enableDamping = !isHeadless;
-    controls.dampingFactor = 0.08;
-    controls.minDistance = 2.4;
-    controls.maxDistance = 16.0;
-    controls.maxPolarAngle = Math.PI * 0.85;
-    controls.update();
-
-    const stopPresetTransition = () => {
-      stateRef.current.transitioningPreset = false;
-      stateRef.current.needsRender = true;
-    };
-    const onControlsChange = () => {
-      stateRef.current.needsRender = true;
-    };
-    controls.addEventListener('start', stopPresetTransition);
-    controls.addEventListener('change', onControlsChange);
-
-    // ─── STUDIO 3-POINT LIGHTING RIG (Warm Key + Cool Hemisphere Fill + Rim) ───
-    const hemiLight = new THREE.HemisphereLight(0xf4f8ff, 0x8ea0b2, 0.95);
-    hemiLight.position.set(0, 12, 0);
-    scene.add(hemiLight);
-
-    const keyLight = new THREE.DirectionalLight(0xfff8ee, 2.1);
-    keyLight.position.set(5.5, 11.5, 6.5);
-    keyLight.castShadow = !isHeadless;
-    keyLight.shadow.mapSize.set(2048, 2048);
-    keyLight.shadow.camera.left = -5.5;
-    keyLight.shadow.camera.right = 5.5;
-    keyLight.shadow.camera.top = 5.5;
-    keyLight.shadow.camera.bottom = -5.5;
-    keyLight.shadow.camera.near = 2;
-    keyLight.shadow.camera.far = 25;
-    keyLight.shadow.bias = -0.0005;
-    keyLight.shadow.normalBias = 0.02;
-    scene.add(keyLight);
-
-    const fillLight = new THREE.DirectionalLight(0xdbeafe, 0.75);
-    fillLight.position.set(-7.0, 6.0, -4.0);
-    scene.add(fillLight);
-
-    const rimLight = new THREE.DirectionalLight(0xe0f7fa, 0.6);
-    rimLight.position.set(0.0, 4.0, -8.5);
-    scene.add(rimLight);
-
-    // ─── BUILD ARDUINO UNO R3 3D MODEL ────────────────────────────────────────
-    const maxAniso = isHeadless ? 1 : renderer.capabilities.getMaxAnisotropy() || 4;
-    arduinoModel = buildArduinoModel(maxAniso);
-    scene.add(arduinoModel.root);
-
-    // ─── GROUND CONTACT SHADOW PLANE ──────────────────────────────────────────
-    contactShadowTex = createRadialContactShadowTexture();
-    contactShadowGeo = new THREE.PlaneGeometry(9.6, 7.6);
-    contactShadowMat = new THREE.MeshBasicMaterial({
-      map: contactShadowTex,
-      transparent: true,
-      opacity: initialThemeCfg.shadowOpacity,
-      depthWrite: false,
-    });
-    const contactShadowMesh = new THREE.Mesh(contactShadowGeo, contactShadowMat);
-    contactShadowMesh.rotation.x = -Math.PI / 2;
-    contactShadowMesh.position.set(0, -0.42, 0.15);
-    scene.add(contactShadowMesh);
-
-    sceneObjectsRef.current = {
-      renderer,
-      scene,
-      camera,
-      controls,
-      model: arduinoModel,
-      contactShadowMat,
-    };
-
-    // Initial synchronous render
-    renderer.render(scene, camera);
 
     // ─── INTERACTIVE RAYCASTING FOR COMPONENT SELECTION ──────────────────────
     const raycaster = new THREE.Raycaster();
@@ -317,12 +316,14 @@ export const ArduinoViewport: React.FC<ArduinoViewportProps> = ({
       }
     };
 
-    renderer.domElement.addEventListener('pointerdown', handlePointerDown);
-    renderer.domElement.addEventListener('pointerup', handlePointerUp);
+    if (renderer?.domElement) {
+      renderer.domElement.addEventListener('pointerdown', handlePointerDown);
+      renderer.domElement.addEventListener('pointerup', handlePointerUp);
+    }
 
     // ─── RESIZE OBSERVER ──────────────────────────────────────────────────────
     const handleResize = () => {
-      if (!container) return;
+      if (!container || !renderer || !camera || !scene) return;
       const w = container.clientWidth || window.innerWidth;
       const h = container.clientHeight || window.innerHeight;
       const aspect = w / h;
@@ -344,6 +345,8 @@ export const ArduinoViewport: React.FC<ArduinoViewportProps> = ({
     const clock = new THREE.Clock();
 
     const animate = () => {
+      rafId = requestAnimationFrame(animate);
+      if (!renderer || !camera || !scene || !arduinoModel) return;
       rafId = requestAnimationFrame(animate);
 
       const dt = Math.min(clock.getDelta(), 0.1);

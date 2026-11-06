@@ -58,7 +58,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`px-4 py-1.5 rounded-full font-mono text-[11px] tracking-wide transition-all duration-200 ${
+                  className={`px-4 py-1.5 rounded-full font-button text-[11px] tracking-wide transition-all duration-200 ${
                     isActive
                       ? 'bg-[#FF8A24]/15 text-[#FF8A24] font-semibold border border-[#FF8A24]/30 shadow-sm'
                       : 'hover:text-white hover:bg-white/[0.04]'
@@ -95,7 +95,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
                 key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3.5 py-2.5 rounded-xl font-mono text-xs tracking-wider ${
+                className={`block px-3.5 py-2.5 rounded-xl font-button text-xs tracking-wider ${
                   isActive
                     ? 'text-[#FF8A24] bg-[#FF8A24]/10 font-semibold border border-[#FF8A24]/20'
                     : 'text-slate-300 hover:text-white hover:bg-white/5'

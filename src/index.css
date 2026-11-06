@@ -3,6 +3,9 @@
 :root {
   --font-display: 'Sora', system-ui, -apple-system, sans-serif;
   --font-hero: 'Playfair Display', Georgia, serif;
+  --font-michroma: 'Michroma', sans-serif;
+  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+  --font-nova: 'Nova Square', sans-serif;
   --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 
@@ -89,8 +92,40 @@ code, pre, .font-mono {
   font-family: var(--font-hero);
 }
 
+.font-michroma {
+  font-family: var(--font-michroma);
+}
+
+.font-cormorant {
+  font-family: var(--font-cormorant);
+}
+
+.font-nova {
+  font-family: var(--font-nova);
+}
+
 .font-body {
   font-family: var(--font-body);
+}
+
+/* ==========================================================================
+   Global Button Typography — Michroma
+   ========================================================================== */
+
+button,
+button.font-mono,
+button.font-display,
+button.font-body,
+.btn-primary-orange,
+.btn-ghost-dark,
+.neu-btn,
+.neu-btn-primary,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+.font-button {
+  font-family: var(--font-michroma), sans-serif !important;
+  letter-spacing: 0.04em;
 }
 
 /* ==========================================================================
