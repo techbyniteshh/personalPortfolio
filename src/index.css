@@ -311,32 +311,29 @@ input[type="button"],
     top: 0;
     z-index: 10;
   }
-  .story-chapter-arduino {
+  .story-chapter-about {
     z-index: 20;
   }
-  .story-chapter-about {
+  .story-chapter-skills {
     z-index: 30;
   }
-  .story-chapter-skills {
+  .story-chapter-projects {
     z-index: 40;
   }
-  .story-chapter-projects {
+  .story-chapter-education {
     z-index: 50;
   }
-  .story-chapter-education {
+  .story-chapter-achievements {
     z-index: 60;
   }
-  .story-chapter-achievements {
+  .story-chapter-articles {
     z-index: 70;
   }
-  .story-chapter-articles {
+  .story-chapter-contact {
     z-index: 80;
   }
-  .story-chapter-contact {
-    z-index: 90;
-  }
   .story-chapter-fuel {
-    z-index: 100;
+    z-index: 90;
   }
 }
 
@@ -344,7 +341,6 @@ input[type="button"],
 @media (max-width: 1024px), (max-height: 719px) {
   .story-chapter,
   .story-chapter-hero,
-  .story-chapter-arduino,
   .story-chapter-about,
   .story-chapter-skills,
   .story-chapter-projects,

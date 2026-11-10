@@ -9,12 +9,29 @@ import {
   sizeToCanvas,
 } from '../data/arduinoSpecs';
 
-function createCanvas(w: number, h: number): [HTMLCanvasElement, CanvasRenderingContext2D] {
+const canvasCache = new Map<string, HTMLCanvasElement>();
+
+export function clearTextureCache(): void {
+  canvasCache.clear();
+}
+
+function createCanvas(
+  w: number,
+  h: number,
+  key?: string
+): [HTMLCanvasElement, CanvasRenderingContext2D, boolean] {
+  if (key && canvasCache.has(key)) {
+    const cv = canvasCache.get(key)!;
+    return [cv, cv.getContext('2d')!, true];
+  }
   const cv = document.createElement('canvas');
   cv.width = w;
   cv.height = h;
   const ctx = cv.getContext('2d')!;
-  return [cv, ctx];
+  if (key) {
+    canvasCache.set(key, cv);
+  }
+  return [cv, ctx, false];
 }
 
 function drawRoundedRect(

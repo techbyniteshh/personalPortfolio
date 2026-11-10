@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "tsx server.ts",
-    "test": "node --test src/utils/portfolio-logic.test.ts src/arduino/data/arduinoSpecs.test.ts",
+    "test": "node --test src/utils/portfolio-logic.test.ts src/arduino/data/arduinoSpecs.test.ts src/arduino/three/qualityController.test.ts src/utils/homepage-verification.test.ts",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
   },

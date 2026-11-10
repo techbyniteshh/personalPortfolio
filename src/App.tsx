@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar.tsx';
 import { HeroSection } from './sections/HeroSection.tsx';
-import { ArduinoShowcaseSection } from './sections/ArduinoShowcaseSection.tsx';
 import { AboutSection } from './sections/AboutSection.tsx';
 import { SkillsSection } from './sections/SkillsSection.tsx';
 import { ProjectsSection } from './sections/ProjectsSection.tsx';
@@ -26,7 +25,6 @@ export default function App() {
   useEffect(() => {
     const sectionIds = [
       'hero',
-      'arduino-experience',
       'about',
       'skills',
       'projects',
@@ -105,47 +103,42 @@ export default function App() {
           <HeroSection />
         </div>
 
-        {/* Chapter 1: Arduino 3D Digital Twin Stage */}
-        <div className="story-chapter story-chapter-arduino">
-          <ArduinoShowcaseSection />
-        </div>
-
-        {/* Chapter 2: Philosophy & Engineering Perspective */}
+        {/* Chapter 1: Philosophy & Engineering Perspective */}
         <div className="story-chapter story-chapter-about">
           <AboutSection />
         </div>
 
-        {/* Chapter 3: Technical Capability Matrix */}
+        {/* Chapter 2: Technical Capability Matrix */}
         <div className="story-chapter story-chapter-skills">
           <SkillsSection />
         </div>
 
-        {/* Chapter 4: Featured Case Studies */}
+        {/* Chapter 3: Featured Case Studies */}
         <div className="story-chapter story-chapter-projects">
           <ProjectsSection />
         </div>
 
-        {/* Chapter 5: Academic Milestones */}
+        {/* Chapter 4: Academic Milestones */}
         <div className="story-chapter story-chapter-education">
           <EducationSection />
         </div>
 
-        {/* Chapter 6: Competitive Hackathon Honors */}
+        {/* Chapter 5: Competitive Hackathon Honors */}
         <div className="story-chapter story-chapter-achievements">
           <AchievementsSection />
         </div>
 
-        {/* Chapter 7: Field Notes & Technical Logs */}
+        {/* Chapter 6: Field Notes & Technical Logs */}
         <div className="story-chapter story-chapter-articles">
           <ArticlesSection />
         </div>
 
-        {/* Chapter 8: Direct Contact & Transmission */}
+        {/* Chapter 7: Direct Contact & Transmission */}
         <div className="story-chapter story-chapter-contact">
           <ContactSection />
         </div>
 
-        {/* Chapter 9: Community & Voluntary Backing */}
+        {/* Chapter 8: Community & Voluntary Backing */}
         <div className="story-chapter story-chapter-fuel">
           <FuelCreativitySection />
         </div>

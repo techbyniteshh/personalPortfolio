@@ -11,7 +11,7 @@ export const ArticlesSection: React.FC = () => {
         <div data-reveal className="text-center max-w-2xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0D1118] border border-white/[0.1] text-xs font-mono font-medium text-[#FF8A24] mb-3 backdrop-blur-md">
             <Newspaper className="w-3.5 h-3.5" />
-            <span>CHAPTER 07 // TECHNICAL LOGS</span>
+            <span>CHAPTER 06 // TECHNICAL LOGS</span>
           </div>
           <h2 className="font-display text-display-2 text-white">
             Field Notes & Explorations

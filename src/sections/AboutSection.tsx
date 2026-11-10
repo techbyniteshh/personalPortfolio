@@ -37,7 +37,7 @@ export const AboutSection: React.FC = () => {
         <div data-reveal className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0D1118] border border-white/[0.1] text-xs font-mono font-medium text-[#FF8A24] mb-4 backdrop-blur-md">
             <User className="w-3.5 h-3.5 text-[#FF8A24]" />
-            <span>CHAPTER 02 // PHILOSOPHY & CAPABILITY</span>
+            <span>CHAPTER 01 // PHILOSOPHY & CAPABILITY</span>
           </div>
           <h2 className="font-display text-display-2 text-white">
             Curious by Nature, <br />

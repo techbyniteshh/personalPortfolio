@@ -338,6 +338,24 @@ export const PROJECTS_DATA: Project[] = [
     highlightMetric: 'Hardware Prototype Tested & Verified',
     iconName: 'cpu',
   },
+  {
+    id: 'arduino-project',
+    name: 'Arduino Project',
+    tagline: 'Physical Computing & Embedded Hardware Architecture',
+    description:
+      'An embedded physical computing project based on the ATmega328P microcontroller, featuring sensor telemetry, digital/analog signal interfacing, PWM actuator modulation, and regulated 5V power circuitry.',
+    fullDetails: [
+      'Architected embedded hardware firmware and circuit layout using the ATmega328P 16MHz AVR microcontroller.',
+      'Implemented analog-to-digital telemetry acquisition, serial UART communication, and pulse-width modulation for peripheral control.',
+      'Configured stable 5V and 3.3V DC power distribution with onboard linear voltage regulation and passive decoupling filters.',
+    ],
+    technologies: ['C++', 'Arduino IDE', 'ATmega328P', 'Embedded Systems', 'Circuit Design', 'UART / I2C'],
+    category: 'IoT & Hardware',
+    status: 'Completed',
+    githubUrl: 'https://github.com/techbyniteshh',
+    highlightMetric: 'Embedded Hardware Architecture',
+    iconName: 'cpu',
+  },
 ];
 
 export const ARTICLES_DATA: TechnicalArticle[] = [

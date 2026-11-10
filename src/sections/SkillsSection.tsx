@@ -76,7 +76,7 @@ export const SkillsSection: React.FC = () => {
         <div data-reveal className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0D1118] border border-white/[0.1] text-xs font-mono font-medium text-[#FF8A24] mb-3 backdrop-blur-md">
             <Wrench className="w-3.5 h-3.5" />
-            <span>CHAPTER 03 // ARCHITECTURAL STACK</span>
+            <span>CHAPTER 02 // ARCHITECTURAL STACK</span>
           </div>
           <h2 className="font-display text-display-2 text-white">
             Technical Capability Matrix

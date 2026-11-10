@@ -49,7 +49,7 @@ export const ProjectsSection: React.FC = () => {
         <div data-reveal className="text-center max-w-2xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0D1118] border border-white/[0.1] text-xs font-mono font-medium text-[#FF8A24] mb-3 backdrop-blur-md">
             <FolderGit2 className="w-3.5 h-3.5" />
-            <span>CHAPTER 04 // VERIFIED ENGINEERING</span>
+            <span>CHAPTER 03 // VERIFIED ENGINEERING</span>
           </div>
           <h2 className="font-display text-display-2 text-white">
             Featured Case Studies
